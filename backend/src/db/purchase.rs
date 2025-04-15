@@ -25,14 +25,47 @@ pub fn create_purchase(
         .get_result(conn)
 }
 
-pub fn get_purch() {
+pub enum QueryPurchase {
+    Id(Uuid),
+    Status(String),
+}
+
+pub fn get_purchase(
+    conn: &mut PgConnection,
+    query_enum: QueryPurchase,
+) -> QueryResult<Vec<Purchase>> {
+    use crate::schema::purchases::dsl::*;
+
+    match query_enum {
+        QueryPurchase::Id(i) => purchases.filter(id.eq(i)).select(Purchase::as_select()).load(conn),
+        QueryPurchase::Status(s) => purchases.filter(status.eq(s)).select(Purchase::as_select()).load(conn),
+    }
+}
+
+pub enum UpdatePurchase {
+    Status(String),
+}
+
+pub fn update(
+    conn: &mut PgConnection,
+    p_id: Uuid,
+    update_enum: UpdatePurchase,
+) -> QueryResult<Purchase> {
+    use crate::schema::purchases::dsl::*;
+
+    let up = diesel::update(purchases.filter(id.eq(p_id)));
+    match update_enum {
+        UpdatePurchase::Status(s) => up.set(status.eq(s)).returning(Purchase::as_returning()).get_result(conn),
+    }
 
 }
 
-pub fn update() {
 
-}
+pub fn delete(
+    conn: &mut PgConnection,
+    p_id: Uuid
+) -> QueryResult<usize> {
+    use crate::schema::purchases::dsl::*;
 
-pub fn delete() {
-
+    diesel::delete(purchases.filter(id.eq(p_id))).execute(conn)
 }

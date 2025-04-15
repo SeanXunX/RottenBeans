@@ -35,7 +35,7 @@ pub enum QueryBook {
     Publisher(String),
 }
 
-pub fn get_book_by_(
+pub fn get_book(
     conn: &mut PgConnection,
     query_enum: QueryBook
 ) -> QueryResult<Vec<Book>> {
