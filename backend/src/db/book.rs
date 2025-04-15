@@ -59,6 +59,7 @@ pub enum UpdateBook {
     Author(String),
     Publisher(String),
     RetailPrice(BigDecimal),
+    Stock(i32),
 }
 
 pub fn update(
@@ -74,6 +75,7 @@ pub fn update(
         UpdateBook::Author(a) => up.set(author.eq(a)).returning(Book::as_returning()).get_result(conn),
         UpdateBook::Publisher(p) => up.set(publisher.eq(p)).returning(Book::as_returning()).get_result(conn),
         UpdateBook::RetailPrice(r) => up.set(retail_price.eq(r)).returning(Book::as_returning()).get_result(conn),
+        UpdateBook::Stock(delta) => up.set(stock.eq(stock + delta)).returning(Book::as_returning()).get_result(conn),
     } 
 
 }
