@@ -57,3 +57,21 @@ pub fn delete_user_by_username(
     diesel::delete(users.filter(username.eq(uname)))
         .execute(conn)
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::db::utils::*;
+
+    #[test]
+    fn test_delete_fail_case() {
+        let conn = &mut establish_connection();
+        let res = delete_user_by_username(conn, "no user");
+        let error_string = match res {
+            Err(_) => String::from("Error Delete!"),
+            Ok(num) if num > 0 => format!("Succeed in deleting {} accounts!", num),
+            Ok(_) => format!("Delete nothing"),
+        };
+        assert_eq!(error_string, "Delete nothing");
+    }
+}
