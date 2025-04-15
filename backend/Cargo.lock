@@ -150,6 +150,7 @@ dependencies = [
  "bigdecimal",
  "bitflags",
  "byteorder",
+ "chrono",
  "diesel_derives",
  "itoa",
  "num-bigint",

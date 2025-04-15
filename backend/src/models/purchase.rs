@@ -5,7 +5,9 @@ use bigdecimal::BigDecimal;
 use diesel::prelude::*;
 
 
-#[derive(Queryable, Serialize)]
+#[derive(Queryable, Selectable, Serialize)]
+#[diesel(table_name = crate::schema::purchases)]
+#[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Purchase {
     pub id: Uuid,
     pub book_id: Uuid,

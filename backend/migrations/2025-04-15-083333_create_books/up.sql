@@ -12,7 +12,7 @@ CREATE TABLE books (
 
 CREATE TABLE purchases (
     id UUID PRIMARY KEY,
-    book_id UUID REFERENCES books(id),
+    book_id UUID REFERENCES books(id) NOT NULL,
     quantity INTEGER NOT NULL,
     purchase_price NUMERIC NOT NULL,
     status TEXT NOT NULL, -- unpaid, paid, returned
@@ -23,6 +23,5 @@ CREATE TABLE finance_logs (
     id UUID PRIMARY KEY,
     action_type TEXT NOT NULL, -- income, expense
     amount NUMERIC NOT NULL,
-    note TEXT,
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );

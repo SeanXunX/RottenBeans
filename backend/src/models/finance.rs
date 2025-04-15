@@ -4,12 +4,13 @@ use chrono::NaiveDateTime;
 use bigdecimal::BigDecimal;
 use diesel::prelude::*;
 
-#[derive(Queryable, Serialize)]
+#[derive(Queryable, Selectable, Serialize)]
+#[diesel(table_name = crate::schema::finance_logs)]
+#[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct FinanceLog {
     pub id: Uuid,
     pub action_type: String, // income / expense
     pub amount: BigDecimal,
-    pub note: Option<String>,
     pub created_at: NaiveDateTime,
 }
 
@@ -18,5 +19,4 @@ pub struct FinanceLog {
 pub struct NewFinanceLog {
     pub action_type: String,
     pub amount: BigDecimal,
-    pub note: Option<String>,
 }

@@ -18,7 +18,6 @@ diesel::table! {
         id -> Uuid,
         action_type -> Text,
         amount -> Numeric,
-        note -> Nullable<Text>,
         created_at -> Timestamp,
     }
 }
@@ -26,7 +25,7 @@ diesel::table! {
 diesel::table! {
     purchases (id) {
         id -> Uuid,
-        book_id -> Nullable<Uuid>,
+        book_id -> Uuid,
         quantity -> Int4,
         purchase_price -> Numeric,
         status -> Text,

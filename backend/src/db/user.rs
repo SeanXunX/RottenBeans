@@ -25,14 +25,13 @@ pub fn create_user(
         .get_result(conn)
 }
 
-pub fn get_user_by_username(conn: &mut PgConnection, username: &str) -> Option<User> {
+pub fn get_user_by_username(conn: &mut PgConnection, username: &str) -> QueryResult<User> {
     use crate::schema::users;
 
     users::table
         .filter(users::username.eq(username))
         .select(User::as_select())
         .first(conn)
-        .ok()
 }
 
 pub fn update_user_password(
