@@ -5,7 +5,7 @@ use chrono::NaiveDateTime;
 
 pub fn create_log(
     conn: &mut PgConnection,
-    act_type: &str,
+    act_type: String,
     amt: BigDecimal
 ) -> QueryResult<FinanceLog> {
     use crate::schema::finance_logs::dsl::*;

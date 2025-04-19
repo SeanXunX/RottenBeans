@@ -8,7 +8,7 @@ pub fn create_purchase(
     b_id: Uuid,
     quan: i32,
     price: BigDecimal,
-    stat: &str,
+    stat: String,
 ) -> QueryResult<Purchase> {
     use crate::schema::purchases::dsl::*;
 

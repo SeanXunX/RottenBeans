@@ -3,9 +3,9 @@ use crate::models::user::{NewUser, User};
 
 pub fn create_user(
     conn: &mut PgConnection, 
-    username: &str, password: &str, 
-    real_name: &str, employee_id: i32, 
-    gender: &str, 
+    username: String, password: String, 
+    real_name: String, employee_id: i32, 
+    gender: String, 
     age: i32
 ) -> QueryResult<User> {
 
@@ -17,7 +17,8 @@ pub fn create_user(
         real_name, 
         employee_id, 
         gender, 
-        age};
+        age
+    };
     
     diesel::insert_into(users::table)
         .values(&new_user)

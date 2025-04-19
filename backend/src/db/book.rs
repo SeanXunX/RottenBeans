@@ -5,10 +5,10 @@ use uuid::Uuid;
 
 pub fn create_user(
     conn: &mut PgConnection,
-    isbn: &str,
-    title: &str,
-    author: &str,
-    publisher: &str,
+    isbn: String,
+    title: String,
+    author: String,
+    publisher: String,
     retail_price: BigDecimal,
 ) -> QueryResult<Book> {
     use crate::schema::books;

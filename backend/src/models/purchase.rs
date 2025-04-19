@@ -19,9 +19,9 @@ pub struct Purchase {
 
 #[derive(Insertable, Deserialize)]
 #[diesel(table_name = crate::schema::purchases)]
-pub struct NewPurchase<'a> {
+pub struct NewPurchase {
     pub book_id: Uuid,
     pub quantity: i32,
     pub purchase_price: BigDecimal,
-    pub status: &'a str,
+    pub status: String,
 }

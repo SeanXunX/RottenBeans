@@ -20,10 +20,10 @@ pub struct Book {
 
 #[derive(Insertable, Deserialize)]
 #[diesel(table_name = crate::schema::books)]
-pub struct NewBook<'a> {
-    pub isbn: &'a str,
-    pub title: &'a str,
-    pub author: &'a str,
-    pub publisher: &'a str,
+pub struct NewBook {
+    pub isbn: String,
+    pub title: String,
+    pub author: String,
+    pub publisher: String,
     pub retail_price: bigdecimal::BigDecimal,
 }
