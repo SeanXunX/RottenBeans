@@ -1,6 +1,7 @@
 use diesel::prelude::*;
 use crate::models::user::{NewUser, User};
 use serde::Deserialize;
+use crate::db::DbPool;
 
 pub fn create_user(
     conn: &mut PgConnection, 
@@ -84,6 +85,42 @@ pub fn delete_user_by_username(
 pub fn get_all_users(conn: &mut PgConnection) -> QueryResult<Vec<User>> {
     use crate::schema::users::dsl::*;
     users.load::<User>(conn)
+}
+
+fn create_super_admin(conn: &mut PgConnection) -> QueryResult<User> {
+    use crate::schema::users::dsl::*;
+
+    let admin = NewUser {
+        username: "admin".to_string(),
+        password: format!("{:x}", md5::compute("admin")), // 默认密码 admin123 (已加密)
+        real_name: "Sean".to_string(),
+        employee_id: 0,
+        gender: "male".to_string(),
+        age: 4869,
+    };
+
+    create_new_user(conn, &admin)?;
+
+    diesel::update(users.filter(username.eq("admin")))
+        .set(is_super.eq(true))
+        .returning(User::as_returning())
+        .get_result(conn)
+}
+
+/// ✅ 检查并初始化超级管理员
+pub fn initialize_super_admin(pool: &DbPool) {
+    let mut conn = &mut pool.get().expect("Failed to get DB connection");
+
+    // 尝试查找 admin 用户
+    if get_user_by_username(&mut conn, "admin").is_err() {
+        println!("🌟 超级管理员不存在，正在初始化...");
+        match create_super_admin(&mut conn) {
+            Ok(_) => println!("✅ 初始化超级管理员成功 (账号：admin / 密码：admin)"),
+            Err(e) => eprintln!("❌ 初始化超级管理员失败: {:?}", e),
+        }
+    } else {
+        println!("✅ 超级管理员账号已存在。");
+    }
 }
 
 #[cfg(test)]

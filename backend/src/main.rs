@@ -1,10 +1,23 @@
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use backend::handlers::*;
+use backend::db::{user::initialize_super_admin, establish_pool};
+use actix_web::{web, App, HttpServer};
+use dotenvy::dotenv;
+use std::env;
 
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
+    dotenv().ok();
+    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    let pool = establish_pool(&database_url);
+
+    // 🌟 在启动服务器前初始化超级管理员
+    initialize_super_admin(&pool);
+
+    HttpServer::new(move || {
         App::new()
+            .app_data(web::Data::new(pool.clone()))
+            .configure(user::config)
     })
     .bind(("127.0.0.1", 8080))?
     .run()
