@@ -1,5 +1,6 @@
 use diesel::prelude::*;
 use crate::models::user::{NewUser, User};
+use serde::Deserialize;
 
 pub fn create_user(
     conn: &mut PgConnection, 
@@ -9,7 +10,6 @@ pub fn create_user(
     age: i32
 ) -> QueryResult<User> {
 
-    use crate::schema::users;
 
     let new_user = NewUser {
         username, 
@@ -20,8 +20,21 @@ pub fn create_user(
         age
     };
     
-    diesel::insert_into(users::table)
-        .values(&new_user)
+    create_new_user(conn, &new_user)
+    // diesel::insert_into(users::table)
+    //     .values(&new_user)
+    //     .returning(User::as_returning())
+    //     .get_result(conn)
+}
+
+pub fn create_new_user(
+    conn: &mut PgConnection,
+    new_user: &NewUser,
+) -> QueryResult<User> {
+
+    use crate::schema::users::dsl::*;
+    diesel::insert_into(users)
+        .values(new_user)
         .returning(User::as_returning())
         .get_result(conn)
 }
@@ -35,15 +48,25 @@ pub fn get_user_by_username(conn: &mut PgConnection, username: &str) -> QueryRes
         .first(conn)
 }
 
-pub fn update_user_password(
+#[derive(AsChangeset, Deserialize)]
+#[diesel(table_name = crate::schema::users)] 
+pub struct UpdateUserInfo {
+    pub password: String,
+    pub real_name: String,
+    pub employee_id: i32,
+    pub gender: String,
+    pub age: i32,
+}
+
+pub fn update_user_info(
     conn: &mut PgConnection,
     uname: &str,
-    new_password: &str
+    info: &UpdateUserInfo
 ) -> QueryResult<User> {
     use crate::schema::users::dsl::*;
 
     diesel::update(users.filter(username.eq(uname)))
-        .set(password.eq(new_password))
+        .set(info)
         .returning(User::as_returning())
         .get_result(conn)
 }
@@ -56,6 +79,11 @@ pub fn delete_user_by_username(
 
     diesel::delete(users.filter(username.eq(uname)))
         .execute(conn)
+}
+
+pub fn get_all_users(conn: &mut PgConnection) -> QueryResult<Vec<User>> {
+    use crate::schema::users::dsl::*;
+    users.load::<User>(conn)
 }
 
 #[cfg(test)]
