@@ -1,26 +1,26 @@
-use diesel::prelude::*;
-use crate::models::user::{NewUser, User};
-use serde::Deserialize;
 use crate::db::DbPool;
+use crate::models::user::{NewUser, User};
+use diesel::prelude::*;
+use serde::Deserialize;
 
 pub fn create_user(
-    conn: &mut PgConnection, 
-    username: String, password: String, 
-    real_name: String, employee_id: i32, 
-    gender: String, 
-    age: i32
+    conn: &mut PgConnection,
+    username: String,
+    password: String,
+    real_name: String,
+    employee_id: i32,
+    gender: String,
+    age: i32,
 ) -> QueryResult<User> {
-
-
     let new_user = NewUser {
-        username, 
+        username,
         password,
-        real_name, 
-        employee_id, 
-        gender, 
-        age
+        real_name,
+        employee_id,
+        gender,
+        age,
     };
-    
+
     create_new_user(conn, &new_user)
     // diesel::insert_into(users::table)
     //     .values(&new_user)
@@ -28,11 +28,7 @@ pub fn create_user(
     //     .get_result(conn)
 }
 
-pub fn create_new_user(
-    conn: &mut PgConnection,
-    new_user: &NewUser,
-) -> QueryResult<User> {
-
+pub fn create_new_user(conn: &mut PgConnection, new_user: &NewUser) -> QueryResult<User> {
     use crate::schema::users::dsl::*;
     diesel::insert_into(users)
         .values(new_user)
@@ -50,7 +46,7 @@ pub fn get_user_by_username(conn: &mut PgConnection, username: &str) -> QueryRes
 }
 
 #[derive(AsChangeset, Deserialize)]
-#[diesel(table_name = crate::schema::users)] 
+#[diesel(table_name = crate::schema::users)]
 pub struct UpdateUserInfo {
     pub password: String,
     pub real_name: String,
@@ -62,7 +58,7 @@ pub struct UpdateUserInfo {
 pub fn update_user_info(
     conn: &mut PgConnection,
     uname: &str,
-    info: &UpdateUserInfo
+    info: &UpdateUserInfo,
 ) -> QueryResult<User> {
     use crate::schema::users::dsl::*;
 
@@ -72,14 +68,10 @@ pub fn update_user_info(
         .get_result(conn)
 }
 
-pub fn delete_user_by_username(
-    conn: &mut PgConnection,
-    uname: &str,
-) -> QueryResult<usize> {
+pub fn delete_user_by_username(conn: &mut PgConnection, uname: &str) -> QueryResult<usize> {
     use crate::schema::users::dsl::*;
 
-    diesel::delete(users.filter(username.eq(uname)))
-        .execute(conn)
+    diesel::delete(users.filter(username.eq(uname))).execute(conn)
 }
 
 pub fn get_all_users(conn: &mut PgConnection) -> QueryResult<Vec<User>> {

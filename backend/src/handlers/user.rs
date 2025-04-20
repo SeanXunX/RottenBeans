@@ -1,14 +1,9 @@
-use actix_web::{get, post, put, web, HttpResponse, Responder};
-use serde::{Deserialize, Serialize};
-use crate::db::{
-    DbPool,
-    user::*,
-};
-use md5;
 use crate::auth::*;
+use crate::db::{DbPool, user::*};
 use crate::models::user::*;
-
-
+use actix_web::{HttpResponse, Responder, get, post, put, web};
+use md5;
+use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize)]
 pub struct LoginForm {
@@ -26,7 +21,7 @@ pub struct LoginResponse {
 async fn login(pool: web::Data<DbPool>, data: web::Json<LoginForm>) -> impl Responder {
     let mut conn = pool.get().unwrap();
     let user = get_user_by_username(&mut conn, &data.username);
-    
+
     match user {
         Ok(user) => {
             let hashed_input = format!("{:x}", md5::compute(&data.password));
@@ -56,7 +51,8 @@ async fn create_user(
         new_user.password = format!("{:x}", md5::compute(&new_user.password));
         match crate::db::user::create_new_user(&mut conn, &new_user) {
             Ok(u) => HttpResponse::Created().json(u),
-            Err(e) => HttpResponse::InternalServerError().body(format!("Failed to create new user: {:?}", e))
+            Err(e) => HttpResponse::InternalServerError()
+                .body(format!("Failed to create new user: {:?}", e)),
         }
     } else {
         HttpResponse::Unauthorized().body("Only super users can create users")
@@ -64,10 +60,7 @@ async fn create_user(
 }
 
 #[get("/me")]
-async fn get_my_info(
-    pool: web::Data<DbPool>,
-    user: AuthUser,
-) -> impl Responder {
+async fn get_my_info(pool: web::Data<DbPool>, user: AuthUser) -> impl Responder {
     let mut conn = pool.get().unwrap();
     match get_user_by_username(&mut conn, &user.username) {
         Ok(u) => HttpResponse::Ok().json(u),
@@ -89,10 +82,7 @@ async fn update_my_info(
 }
 
 #[get("/users")]
-async fn list_all_users(
-    pool: web::Data<DbPool>,
-    user: AuthUser,
-) -> impl Responder {
+async fn list_all_users(pool: web::Data<DbPool>, user: AuthUser) -> impl Responder {
     if !user.is_super {
         HttpResponse::Forbidden().body("Only super user can access all users")
     } else {
