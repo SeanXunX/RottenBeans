@@ -11,7 +11,6 @@ async fn main() -> std::io::Result<()> {
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
     let pool = establish_pool(&database_url);
 
-    // 🌟 在启动服务器前初始化超级管理员
     initialize_super_admin(&pool);
 
     HttpServer::new(move || {

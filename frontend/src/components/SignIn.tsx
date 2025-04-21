@@ -1,11 +1,37 @@
 import "./SignIn.css";
 import beanIcon from "../assets/bean-coffee-leaf-svgrepo-com.svg";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 
 function SignIn() {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post("/api/login", {
+                username,
+                password,
+            });
+
+            const { token, is_super } = response.data;
+
+            localStorage.setItem("token", token);
+            localStorage.setItem("is_super", JSON.stringify(is_super));
+
+            navigate("/dashboard");
+        } catch (error) {
+            alert("Login failed. Please check username/passowrd.");
+        }
+    };
+
     return (
         <div className="d-flex align-items-center py-4 bg-body-tertiary full-height">
             <main className="form-signin w-100 m-auto">
-                <form>
+                <form onSubmit={handleSubmit}>
                     <img
                         src={beanIcon}
                         className="img-fluid rounded-circle"
@@ -16,10 +42,11 @@ function SignIn() {
 
                     <div className="form-floating mb-3">
                         <input
-                            type="email"
+                            type="username"
                             className="form-control"
                             id="floatingInput"
                             placeholder="admin"
+                            onChange={(e) => setUsername(e.target.value)}
                         />
                         <label htmlFor="floatingInput">Username</label>
                     </div>
@@ -30,6 +57,7 @@ function SignIn() {
                             className="form-control"
                             id="floatingPassword"
                             placeholder="Password"
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                         <label htmlFor="floatingPassword">Password</label>
                     </div>
