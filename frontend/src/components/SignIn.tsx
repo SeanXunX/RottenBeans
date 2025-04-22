@@ -1,8 +1,8 @@
 import "./SignIn.css";
 import beanIcon from "../assets/bean-coffee-leaf-svgrepo-com.svg";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import api from "../api"
 
 function SignIn() {
     const [username, setUsername] = useState("");
@@ -12,7 +12,7 @@ function SignIn() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.post("/api/login", {
+            const response = await api.post("/api/login", {
                 username,
                 password,
             });
