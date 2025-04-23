@@ -1,7 +1,7 @@
-use diesel::prelude::*;
 use crate::models::purchase::*;
-use uuid::Uuid;
 use bigdecimal::BigDecimal;
+use diesel::prelude::*;
+use uuid::Uuid;
 
 pub fn create_purchase(
     conn: &mut PgConnection,
@@ -37,8 +37,14 @@ pub fn get_purchase(
     use crate::schema::purchases::dsl::*;
 
     match query_enum {
-        QueryPurchase::Id(i) => purchases.filter(id.eq(i)).select(Purchase::as_select()).load(conn),
-        QueryPurchase::Status(s) => purchases.filter(status.eq(s)).select(Purchase::as_select()).load(conn),
+        QueryPurchase::Id(i) => purchases
+            .filter(id.eq(i))
+            .select(Purchase::as_select())
+            .load(conn),
+        QueryPurchase::Status(s) => purchases
+            .filter(status.eq(s))
+            .select(Purchase::as_select())
+            .load(conn),
     }
 }
 
@@ -55,16 +61,14 @@ pub fn update(
 
     let up = diesel::update(purchases.filter(id.eq(p_id)));
     match update_enum {
-        UpdatePurchase::Status(s) => up.set(status.eq(s)).returning(Purchase::as_returning()).get_result(conn),
+        UpdatePurchase::Status(s) => up
+            .set(status.eq(s))
+            .returning(Purchase::as_returning())
+            .get_result(conn),
     }
-
 }
 
-
-pub fn delete(
-    conn: &mut PgConnection,
-    p_id: Uuid
-) -> QueryResult<usize> {
+pub fn delete(conn: &mut PgConnection, p_id: Uuid) -> QueryResult<usize> {
     use crate::schema::purchases::dsl::*;
 
     diesel::delete(purchases.filter(id.eq(p_id))).execute(conn)

@@ -19,8 +19,8 @@ function SignIn() {
 
             const { token, is_super } = response.data;
 
-            localStorage.setItem("token", token);
-            localStorage.setItem("is_super", JSON.stringify(is_super));
+            sessionStorage.setItem("token", token);
+            sessionStorage.setItem("is_super", JSON.stringify(is_super));
 
             navigate("/dashboard");
         } catch (error) {

@@ -1,13 +1,14 @@
 # Rotten Beans
 
-Rorren tomatoes🍅 + 豆瓣 (Beans)🫘
+Rotten tomatoes🍅 + 豆瓣 (Beans)🫘
 
-# 功能模块
+# 后端接口
 
 ## 用户管理
 
 - [x] 登陆
 - [x] 登陆后才能操作 token传递 **RequireAuth component**
+- [ ] token **unauthorization** time + sign out
 - [ ] 超级管理员
   - [x] 初始创建
   - [ ] 创建用户
@@ -18,9 +19,10 @@ Rorren tomatoes🍅 + 豆瓣 (Beans)🫘
 ## 图书管理
 
 - [ ] 查询图书
+  - [ ] 书籍编号、书籍ISBN号、书名、作者、出版社 等
   - [ ] 模糊查询
-  - [ ] 多重联合查询 (db 中修改enum为struct 循环遍历)
-  - [ ] 图书信息修改
+  - [ ] ~~多重联合查询 (db 中修改enum为struct 循环遍历)~~
+- [ ] 图书信息修改 书籍名称、作者、出版社、零售价格
 
 ## 图书销售
 
@@ -40,3 +42,26 @@ Rorren tomatoes🍅 + 豆瓣 (Beans)🫘
 ## 书籍数据
 
 - [ ] 爬虫
+
+# 前端界面
+
+## Sign In
+
+## Dashboard
+
+Sidebar 入口：
+- book
+- purchase
+- finance
+
+基本模式
+- 图表
+- 查询
+- 修改
+
+
+## Setting
+
+- [ ] personal info management
+- [ ] Create user
+- [ ] Super admin check all user

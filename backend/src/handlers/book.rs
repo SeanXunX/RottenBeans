@@ -1,10 +1,8 @@
-use actix_web::{get, put, web, HttpResponse, Responder};
-use uuid::Uuid;
-use bigdecimal::BigDecimal;
 use crate::db::DbPool;
-use crate::db::book::{self, QueryBook, UpdateBook};
+use crate::db::book::{self, QueryBook, UpdateBookForm};
+use actix_web::{HttpResponse, Responder, get, put, web};
 use serde::Deserialize;
-
+use uuid::Uuid;
 
 #[derive(Deserialize)]
 pub struct BookQuery {
@@ -15,15 +13,7 @@ pub struct BookQuery {
     pub publisher: Option<String>,
 }
 
-/// 更新请求体
-#[derive(Deserialize)]
-pub struct UpdateBookForm {
-    pub title: Option<String>,
-    pub author: Option<String>,
-    pub publisher: Option<String>,
-    pub retail_price: Option<BigDecimal>,
-}
-
+/// search for books
 #[get("/search")]
 async fn search_books(
     pool: web::Data<DbPool>,
@@ -42,17 +32,17 @@ async fn search_books(
     } else if let Some(publisher) = params.publisher {
         QueryBook::Publisher(publisher)
     } else {
-        return HttpResponse::BadRequest().body("必须提供至少一个查询条件");
+        return HttpResponse::BadRequest().body("At least one query type required.");
     };
 
     match book::get_book(&mut conn, query_enum) {
         Ok(books) => HttpResponse::Ok().json(books),
-        Err(_) => HttpResponse::InternalServerError().body("查询失败"),
+        Err(_) => HttpResponse::InternalServerError().body("Query failed."),
     }
 }
 
-/// ✅ PUT /books/{id}
-#[put("/books/{id}")]
+/// update book info
+#[put("/update/{id}")]
 async fn update_book_info(
     pool: web::Data<DbPool>,
     book_id: web::Path<Uuid>,
@@ -61,32 +51,13 @@ async fn update_book_info(
     let mut conn = pool.get().unwrap();
     let book_id = book_id.into_inner();
 
-    if let Some(title) = update_form.title {
-        if let Ok(book) = book::update(&mut conn, book_id, UpdateBook::Title(title)) {
-            return HttpResponse::Ok().json(book);
-        }
+    match book::update(&mut conn, book_id, update_form) {
+        Ok(b) => HttpResponse::Ok().json(b),
+        Err(_) => HttpResponse::InternalServerError().body("Update failed."),
     }
-    if let Some(author) = update_form.author {
-        if let Ok(book) = book::update(&mut conn, book_id, UpdateBook::Author(author)) {
-            return HttpResponse::Ok().json(book);
-        }
-    }
-    if let Some(publisher) = update_form.publisher {
-        if let Ok(book) = book::update(&mut conn, book_id, UpdateBook::Publisher(publisher)) {
-            return HttpResponse::Ok().json(book);
-        }
-    }
-    if let Some(retail_price) = update_form.retail_price {
-        if let Ok(book) = book::update(&mut conn, book_id, UpdateBook::RetailPrice(retail_price)) {
-            return HttpResponse::Ok().json(book);
-        }
-    }
-
-    HttpResponse::BadRequest().body("没有任何需要更新的字段")
 }
 
-/// ✅ 路由注册
+/// Register route
 pub fn config(cfg: &mut web::ServiceConfig) {
-    cfg.service(search_books)
-       .service(update_book_info);
+    cfg.service(search_books).service(update_book_info);
 }

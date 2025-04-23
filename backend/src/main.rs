@@ -1,9 +1,8 @@
+use actix_web::{App, HttpServer, web};
+use backend::db::{establish_pool, user::initialize_super_admin};
 use backend::handlers::*;
-use backend::db::{user::initialize_super_admin, establish_pool};
-use actix_web::{web, App, HttpServer};
 use dotenvy::dotenv;
 use std::env;
-
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -17,6 +16,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(web::Data::new(pool.clone()))
             .configure(user::config)
+            .service(web::scope("/book").configure(book::config))
     })
     .bind(("127.0.0.1", 8080))?
     .run()

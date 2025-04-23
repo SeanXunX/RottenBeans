@@ -1,6 +1,7 @@
-use diesel::prelude::*;
 use crate::models::book::*;
 use bigdecimal::BigDecimal;
+use diesel::prelude::*;
+use serde::Deserialize;
 use uuid::Uuid;
 
 pub fn create_user(
@@ -35,14 +36,11 @@ pub enum QueryBook {
     Publisher(String),
 }
 
-pub fn get_book(
-    conn: &mut PgConnection,
-    query_enum: QueryBook
-) -> QueryResult<Vec<Book>> {
+pub fn get_book(conn: &mut PgConnection, query_enum: QueryBook) -> QueryResult<Vec<Book>> {
     use crate::schema::books;
 
     let query = books::table.into_boxed::<diesel::pg::Pg>();
-    match query_enum { 
+    match query_enum {
         QueryBook::Id(id_val) => query.filter(books::id.eq(id_val)),
         QueryBook::Isbn(isbn_val) => query.filter(books::isbn.eq(isbn_val)),
         QueryBook::Title(title_val) => query.filter(books::title.eq(title_val)),
@@ -51,39 +49,32 @@ pub fn get_book(
     }
     .select(Book::as_select())
     .load(conn)
-
 }
 
-pub enum UpdateBook {
-    Title(String),
-    Author(String),
-    Publisher(String),
-    RetailPrice(BigDecimal),
-    Stock(i32),
+#[derive(Deserialize, AsChangeset)]
+#[diesel(table_name = crate::schema::books)]
+pub struct UpdateBookForm {
+    pub title: Option<String>,
+    pub author: Option<String>,
+    pub publisher: Option<String>,
+    pub stock: i32,
+    pub retail_price: Option<BigDecimal>,
 }
 
 pub fn update(
     conn: &mut PgConnection,
     book_id: Uuid,
-    update_enum: UpdateBook
+    update_form: UpdateBookForm,
 ) -> QueryResult<Book> {
     use crate::schema::books::dsl::*;
 
-    let up = diesel::update(books.filter(id.eq(book_id)));
-    match update_enum {
-        UpdateBook::Title(t) => up.set(title.eq(t)).returning(Book::as_returning()).get_result(conn),
-        UpdateBook::Author(a) => up.set(author.eq(a)).returning(Book::as_returning()).get_result(conn),
-        UpdateBook::Publisher(p) => up.set(publisher.eq(p)).returning(Book::as_returning()).get_result(conn),
-        UpdateBook::RetailPrice(r) => up.set(retail_price.eq(r)).returning(Book::as_returning()).get_result(conn),
-        UpdateBook::Stock(delta) => up.set(stock.eq(stock + delta)).returning(Book::as_returning()).get_result(conn),
-    } 
-
+    diesel::update(books.filter(id.eq(book_id)))
+        .set(&update_form)
+        .returning(Book::as_returning())
+        .get_result(conn)
 }
 
-pub fn delete(
-    conn: &mut PgConnection,
-    book_id: Uuid
-) -> QueryResult<usize> {
+pub fn delete(conn: &mut PgConnection, book_id: Uuid) -> QueryResult<usize> {
     use crate::schema::books::dsl::*;
 
     diesel::delete(books.filter(id.eq(book_id))).execute(conn)

@@ -6,7 +6,7 @@ interface RequireAuthProps {
 }
 
 function RequireAuth({children} : RequireAuthProps) {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
 
     if (!token) {
         return <Navigate to="/" replace />;
