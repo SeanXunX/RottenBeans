@@ -4,7 +4,7 @@ use chrono::NaiveDateTime;
 use diesel::prelude::*;
 
 
-#[derive(Queryable, Selectable, Serialize)]
+#[derive(Queryable, Selectable, Serialize, Debug)]
 #[diesel(table_name = crate::schema::books)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Book {
@@ -21,6 +21,7 @@ pub struct Book {
 #[derive(Insertable, Deserialize)]
 #[diesel(table_name = crate::schema::books)]
 pub struct NewBook {
+    pub id: Uuid,
     pub isbn: String,
     pub title: String,
     pub author: String,

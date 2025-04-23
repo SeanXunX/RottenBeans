@@ -4,7 +4,7 @@ use diesel::prelude::*;
 use serde::Deserialize;
 use uuid::Uuid;
 
-pub fn create_user(
+pub fn create_book(
     conn: &mut PgConnection,
     isbn: String,
     title: String,
@@ -15,6 +15,7 @@ pub fn create_user(
     use crate::schema::books;
 
     let new_book = NewBook {
+        id: Uuid::new_v4(),
         isbn,
         title,
         author,
@@ -78,4 +79,43 @@ pub fn delete(conn: &mut PgConnection, book_id: Uuid) -> QueryResult<usize> {
     use crate::schema::books::dsl::*;
 
     diesel::delete(books.filter(id.eq(book_id))).execute(conn)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::db::utils::*;
+
+    #[test]
+    fn book_create_get() {
+        let conn = &mut establish_connection();
+        /*
+        燃烧的远征
+        作者: [美]拉尔斯·布朗沃思
+        出版社: 中信出版社
+        出品方: 纸间悦动
+        副标题: 十字军东征简史
+        原作名: In Distant Lands
+        译者: 严匡正
+        出版年: 2018-8
+        页数: 280
+        定价: 45
+        装帧: 精装
+        ISBN: 9787508690001
+         */
+        use bigdecimal::FromPrimitive;
+        let res = create_book(
+            conn,
+            String::from("9787508690001"),
+            String::from("燃烧的远征"),
+            String::from("尔斯·布朗沃思"),
+            String::from("中信出版社"),
+            BigDecimal::from_f64(45.0).unwrap(),
+        );
+        println!("{:?}", res);
+        assert!(res.is_ok());
+
+        let search = get_book(conn, QueryBook::Title(String::from("燃烧的远征")));
+        assert!(search.is_ok());
+    }
 }

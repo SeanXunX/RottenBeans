@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, Link } from "react-router-dom";
 import "./Dashboard.css";
 
 function SVGs() {
@@ -48,7 +48,7 @@ function SVGs() {
                 >
                     <path d="M5 6.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.138-1.496A6.6 6.6 0 0 1 7.964 4.5c.666 0 1.303.097 1.893.273a.5.5 0 0 0 .286-.958A7.6 7.6 0 0 0 7.964 3.5c-.734 0-1.441.103-2.102.292a.5.5 0 1 0 .276.962" />
                     <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M7.964 1.527c-2.977 0-5.571 1.704-6.32 4.125h-.55A1 1 0 0 0 .11 6.824l.254 1.46a1.5 1.5 0 0 0 1.478 1.243h.263c.3.513.688.978 1.145 1.382l-.729 2.477a.5.5 0 0 0 .48.641h2a.5.5 0 0 0 .471-.332l.482-1.351c.635.173 1.31.267 2.011.267.707 0 1.388-.095 2.028-.272l.543 1.372a.5.5 0 0 0 .465.316h2a.5.5 0 0 0 .478-.645l-.761-2.506C13.81 9.895 14.5 8.559 14.5 7.069q0-.218-.02-.431c.261-.11.508-.266.705-.444.315.306.815.306.815-.417 0 .223-.5.223-.461-.026a1 1 0 0 0 .09-.255.7.7 0 0 0-.202-.645.58.58 0 0 0-.707-.098.74.74 0 0 0-.375.562c-.024.243.082.48.32.654a2 2 0 0 1-.259.153c-.534-2.664-3.284-4.595-6.442-4.595M2.516 6.26c.455-2.066 2.667-3.733 5.448-3.733 3.146 0 5.536 2.114 5.536 4.542 0 1.254-.624 2.41-1.67 3.248a.5.5 0 0 0-.165.535l.66 2.175h-.985l-.59-1.487a.5.5 0 0 0-.629-.288c-.661.23-1.39.359-2.157.359a6.6 6.6 0 0 1-2.157-.359.5.5 0 0 0-.635.304l-.525 1.471h-.979l.633-2.15a.5.5 0 0 0-.17-.534 4.65 4.65 0 0 1-1.284-1.541.5.5 0 0 0-.446-.275h-.56a.5.5 0 0 1-.492-.414l-.254-1.46h.933a.5.5 0 0 0 .488-.393m12.621-.857a.6.6 0 0 1-.098.21l-.044-.025c-.146-.09-.157-.175-.152-.223a.24.24 0 0 1 .117-.173c.049-.027.08-.021.113.012a.2.2 0 0 1 .064.199"
                     />
                 </symbol>
@@ -63,7 +63,7 @@ function SVGs() {
                 >
                     <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2M3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.39.39 0 0 0-.029-.518z" />
                     <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.95 11.95 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0"
                     />
                 </symbol>
@@ -88,11 +88,11 @@ function SVGs() {
                     viewBox="0 0 16 16"
                 >
                     <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"
                     />
                     <path
-                        fill-rule="evenodd"
+                        fillRule="evenodd"
                         d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"
                     />
                 </symbol>
@@ -136,27 +136,27 @@ function Sidebar() {
                 <div className="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
                     <ul className="nav flex-column">
                         <li className="nav-item">
-                            <a
+                            <Link
                                 className="nav-link d-flex align-items-center gap-2 active"
                                 aria-current="page"
-                                href="#"
+                                to="/dashboard"
                             >
                                 <svg className="bi" aria-hidden="true">
                                     <use href="#speedometer" />
                                 </svg>
                                 Dashboard
-                            </a>
+                            </Link>
                         </li>
                         <li className="nav-item">
-                            <a
+                            <Link
                                 className="nav-link d-flex align-items-center gap-2"
-                                href="#"
+                                to="/dashboard/book"
                             >
                                 <svg className="bi" aria-hidden="true">
                                     <use href="#book" />
                                 </svg>
                                 Book
-                            </a>
+                            </Link>
                         </li>
                         <li className="nav-item">
                             <a
@@ -231,65 +231,7 @@ function Dashboard() {
             <div className="container-fluid" style={{height:"100vh"}}>
                 <div className="row">
                     <Sidebar />
-                    <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                        <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                            <h1 className="h2">Dashboard</h1>
-                            <div className="btn-toolbar mb-2 mb-md-0">
-                                <div className="btn-group me-2">
-                                    <button
-                                        type="button"
-                                        className="btn btn-sm btn-outline-secondary"
-                                    >
-                                        Share
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="btn btn-sm btn-outline-secondary"
-                                    >
-                                        Export
-                                    </button>
-                                </div>
-                                <button
-                                    type="button"
-                                    className="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center gap-1"
-                                >
-                                    {/*             <svg className="bi" aria-hidden="true"><use xlink:href="#calendar3"/></svg>*/}
-                                    This week
-                                </button>
-                            </div>
-                        </div>
-
-                        <canvas
-                            className="my-4 w-100"
-                            id="myChart"
-                            width="900"
-                            height="380"
-                        ></canvas>
-
-                        <h2>Section title</h2>
-                        <div className="table-responsive small">
-                            <table className="table table-striped table-sm">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Header</th>
-                                        <th scope="col">Header</th>
-                                        <th scope="col">Header</th>
-                                        <th scope="col">Header</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1,001</td>
-                                        <td>random</td>
-                                        <td>data</td>
-                                        <td>placeholder</td>
-                                        <td>text</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </main>
+                    <Outlet />
                 </div>
             </div>
         </>

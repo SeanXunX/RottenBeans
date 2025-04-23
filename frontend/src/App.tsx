@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignIn from "./components/SignIn";
 import Dashboard from "./components/Dashboard";
 import RequireAuth from "./RequireAuth";
+import HomePage from "./components/HomePage";
+import Book from "./components/Book";
 
 function App() {
     return (
@@ -15,7 +17,10 @@ function App() {
                             <Dashboard />
                         </RequireAuth>
                     }
-                />
+                >
+                    <Route index element={<HomePage />} />
+                    <Route path="book" element={<Book />} />
+                </Route>
             </Routes>
         </BrowserRouter>
     );

@@ -4,13 +4,15 @@ use actix_web::{HttpResponse, Responder, get, put, web};
 use serde::Deserialize;
 use uuid::Uuid;
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
 pub struct BookQuery {
-    pub id: Option<Uuid>,
-    pub isbn: Option<String>,
-    pub title: Option<String>,
-    pub author: Option<String>,
-    pub publisher: Option<String>,
+    pub search_type: Option<String>,
+    pub search_value: Option<String>,
+    // pub id: Option<Uuid>,
+    // pub isbn: Option<String>,
+    // pub title: Option<String>,
+    // pub author: Option<String>,
+    // pub publisher: Option<String>,
 }
 
 /// search for books
@@ -21,23 +23,22 @@ async fn search_books(
 ) -> impl Responder {
     let mut conn = pool.get().unwrap();
 
-    let query_enum = if let Some(id) = params.id {
-        QueryBook::Id(id)
-    } else if let Some(isbn) = params.isbn {
-        QueryBook::Isbn(isbn)
-    } else if let Some(title) = params.title {
-        QueryBook::Title(title)
-    } else if let Some(author) = params.author {
-        QueryBook::Author(author)
-    } else if let Some(publisher) = params.publisher {
-        QueryBook::Publisher(publisher)
+    if let Some(search_type) = params.search_type {
+        let search_value = params.search_value.unwrap();
+        let query_enum = match search_type.as_str() {
+            "id" => QueryBook::Id(Uuid::parse_str(search_value.as_str()).unwrap()),
+            "isbn" => QueryBook::Isbn(search_value),
+            "title" => QueryBook::Title(search_value),
+            "author" => QueryBook::Author(search_value),
+            "publisher" => QueryBook::Publisher(search_value),
+            _ => return HttpResponse::BadRequest().body("Invalid query type."),
+        };
+        match book::get_book(&mut conn, query_enum) {
+            Ok(books) => HttpResponse::Ok().json(books),
+            Err(_) => HttpResponse::InternalServerError().body("Query failed."),
+        }
     } else {
-        return HttpResponse::BadRequest().body("At least one query type required.");
-    };
-
-    match book::get_book(&mut conn, query_enum) {
-        Ok(books) => HttpResponse::Ok().json(books),
-        Err(_) => HttpResponse::InternalServerError().body("Query failed."),
+        return HttpResponse::BadRequest().body(format!("Receive:{:?}.\nNo query type provided.", params));
     }
 }
 
