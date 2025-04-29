@@ -104,7 +104,7 @@ function Book() {
 
                     <div className="mt-4">
                         <h2>搜索结果</h2>
-                        <table className="table">
+                        <table className="table table-striped table-sm">
                             <thead>
                                 <tr>
                                     <th>ISBN</th>

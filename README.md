@@ -8,11 +8,11 @@ Rotten tomatoes🍅 + 豆瓣 (Beans)🫘
 
 - [x] 登陆
 - [x] 登陆后才能操作 token传递 **RequireAuth component**
-- [x] token **unauthorization** + sign out
+- [x] token **unauthorization** time expiaration (1 hour) + sign out
 - [ ] 超级管理员
   - [x] 初始创建
   - [ ] 创建用户
-  - [ ] 查看所有用户资料
+  - [x] 查看所有用户资料
 - [ ] 图书进货
 - [ ] 销售信息 
 
@@ -40,7 +40,7 @@ Rotten tomatoes🍅 + 豆瓣 (Beans)🫘
 
 ## 书籍数据
 
-- [ ] 爬虫
+- [x] 爬虫，添加数据
 
 # 前端界面
 

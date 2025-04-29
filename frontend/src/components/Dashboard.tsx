@@ -185,15 +185,15 @@ function Sidebar() {
 
                     <ul className="nav flex-column mb-auto">
                         <li className="nav-item">
-                            <a
+                            <Link
                                 className="nav-link d-flex align-items-center gap-2"
-                                href="#"
+                                to="/dashboard/people"
                             >
                                 <svg className="bi" aria-hidden="true">
                                     <use href="#people" />
                                 </svg>
                                 People
-                            </a>
+                            </Link>
                         </li>
                         <li className="nav-item">
                             <a
@@ -228,7 +228,7 @@ function Dashboard() {
     return (
         <>
             <SVGs />
-            <div className="container-fluid" style={{height:"100vh"}}>
+            <div className="container-fluid" style={{ height: "100vh" }}>
                 <div className="row">
                     <Sidebar />
                     <Outlet />

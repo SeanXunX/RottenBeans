@@ -1,9 +1,9 @@
+use actix_web::{Error, FromRequest, HttpRequest, dev::Payload};
+use chrono::{Duration, Utc};
+use futures_util::future::{Ready, ready};
+use jsonwebtoken::{DecodingKey, EncodingKey, Header, Validation, decode, encode};
+use serde::{Deserialize, Serialize};
 use std::env;
-use serde::{Serialize, Deserialize};
-use jsonwebtoken::{encode, decode, Header, EncodingKey, DecodingKey, Validation};
-use actix_web::{FromRequest, Error, HttpRequest, dev::Payload};
-use futures_util::future::{ready, Ready};
-
 
 fn get_secret_key() -> Vec<u8> {
     env::var("SECRET_KEY")
@@ -16,14 +16,21 @@ fn get_secret_key() -> Vec<u8> {
 pub struct Claims {
     pub username: String,
     pub is_super: bool,
+    pub exp: usize,
 }
 
-pub fn generate_token(username:& str, is_super: bool) -> String {
+pub fn generate_token(username: &str, is_super: bool) -> String {
     let key = get_secret_key();
 
+    let exp = Utc::now()
+        .checked_add_signed(Duration::hours(1))
+        .unwrap()
+        .timestamp() as usize;
+
     let claims = Claims {
-        username: username.to_string(), 
+        username: username.to_string(),
         is_super,
+        exp,
     };
 
     encode(&Header::default(), &claims, &EncodingKey::from_secret(&key)).unwrap()

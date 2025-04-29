@@ -4,6 +4,7 @@ import Dashboard from "./components/Dashboard";
 import RequireAuth from "./RequireAuth";
 import HomePage from "./components/HomePage";
 import Book from "./components/Book";
+import PeoplePage from "./components/People";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                 >
                     <Route index element={<HomePage />} />
                     <Route path="book" element={<Book />} />
+                    <Route path="people" element={<PeoplePage />} />
                 </Route>
             </Routes>
         </BrowserRouter>
