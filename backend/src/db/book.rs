@@ -43,10 +43,18 @@ pub fn get_book(conn: &mut PgConnection, query_enum: QueryBook) -> QueryResult<V
     let query = books::table.into_boxed::<diesel::pg::Pg>();
     match query_enum {
         QueryBook::Id(id_val) => query.filter(books::id.eq(id_val)),
-        QueryBook::Isbn(isbn_val) => query.filter(books::isbn.eq(isbn_val)),
-        QueryBook::Title(title_val) => query.filter(books::title.eq(title_val)),
-        QueryBook::Author(author_val) => query.filter(books::author.eq(author_val)),
-        QueryBook::Publisher(publisher_val) => query.filter(books::publisher.eq(publisher_val)),
+        QueryBook::Isbn(isbn_val) => query
+.filter(books::isbn.like(format!("%{}%", isbn_val)))
+            .order_by(books::isbn.asc()),
+        QueryBook::Title(title_val) => query
+.filter(books::title.like(format!("%{}%", title_val)))
+            .order_by(books::title.asc()),
+        QueryBook::Author(author_val) => query
+.filter(books::author.like(format!("%{}%", author_val)))
+            .order_by(books::author.asc()),
+        QueryBook::Publisher(publisher_val) => query
+.filter(books::publisher.like(format!("%{}%", publisher_val)))
+            .order_by(books::publisher.asc()),
     }
     .select(Book::as_select())
     .load(conn)

@@ -8,7 +8,7 @@ Rotten tomatoes🍅 + 豆瓣 (Beans)🫘
 
 - [x] 登陆
 - [x] 登陆后才能操作 token传递 **RequireAuth component**
-- [ ] token **unauthorization** time + sign out
+- [x] token **unauthorization** + sign out
 - [ ] 超级管理员
   - [x] 初始创建
   - [ ] 创建用户
@@ -18,11 +18,10 @@ Rotten tomatoes🍅 + 豆瓣 (Beans)🫘
 
 ## 图书管理
 
-- [ ] 查询图书
-  - [ ] 书籍编号、书籍ISBN号、书名、作者、出版社 等
-  - [ ] 模糊查询
-  - [ ] ~~多重联合查询 (db 中修改enum为struct 循环遍历)~~
-- [ ] 图书信息修改 书籍名称、作者、出版社、零售价格
+- [x] 查询图书
+  - [x] 书籍编号、书籍ISBN号、书名、作者、出版社 等
+  - [x] 模糊查询
+- [x] 图书信息修改 书籍名称、作者、出版社、零售价格
 
 ## 图书销售
 

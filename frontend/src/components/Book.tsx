@@ -18,7 +18,7 @@ function Book() {
     const [books, setBooks] = useState<BookType[]>([]);
 
     const [editIndex, setEditIndex] = useState<number | null>(null);
-    const [editBook, setEditBook] = useState<Partial<BookType>>({});
+    const [editBook, setEditBook] = useState<Partial<BookType>>({}); // Partially chosen types from BookType
 
     const handleSearch = async () => {
         try {
@@ -44,7 +44,7 @@ function Book() {
         if (!editBook.id) return;
 
         try {
-            await api.post("/api/book/update", editBook);
+            await api.put(`/api/book/update/${editBook.id}`, editBook);
             alert("Update successful!");
             setEditIndex(null);
             handleSearch();
@@ -60,6 +60,8 @@ function Book() {
     };
 
     const handleChange = (field: keyof BookType, value: string) => {
+        // If passing a function as nextState, it will be treated as an updater function.
+        // It must be pure, should take the pending state as its only argument, and should return the next state.
         setEditBook((prev) => ({
             ...prev,
             [field]: value,
@@ -77,7 +79,9 @@ function Book() {
                             onChange={(e) => setSearchType(e.target.value)}
                             className="form-select"
                         >
-                            <option value="place_holder" hidden>Search by ...</option>
+                            <option value="place_holder" hidden>
+                                Search by ...
+                            </option>
                             <option value="id">编号</option>
                             <option value="isbn">ISBN</option>
                             <option value="title">书名</option>
@@ -114,7 +118,14 @@ function Book() {
                             </thead>
                             <tbody>
                                 {books.map((book, idx) => (
-                                    <tr key={idx} className={editIndex === idx ? "table-warning" : ""}>
+                                    <tr
+                                        key={idx}
+                                        className={
+                                            editIndex === idx
+                                                ? "table-warning"
+                                                : ""
+                                        }
+                                    >
                                         {editIndex === idx ? (
                                             <>
                                                 <td><input value={editBook.isbn || ""} onChange={(e) => handleChange("isbn", e.target.value)} className="form-control" /></td>
@@ -124,8 +135,18 @@ function Book() {
                                                 <td><input value={editBook.retail_price || ""} onChange={(e) => handleChange("retail_price", e.target.value)} className="form-control" /></td>
                                                 <td><input value={editBook.stock?.toString() || ""} onChange={(e) => handleChange("stock", e.target.value)} className="form-control" /></td>
                                                 <td>
-                                                    <button onClick={handleSave} className="btn btn-success btn-sm me-2">✅确认</button>
-                                                    <button onClick={handleCancel} className="btn btn-secondary btn-sm">❌取消</button>
+                                                    <button
+                                                        onClick={handleSave}
+                                                        className="btn btn-success btn-sm me-2"
+                                                    >
+                                                        ✅确认
+                                                    </button>
+                                                    <button
+                                                        onClick={handleCancel}
+                                                        className="btn btn-secondary btn-sm"
+                                                    >
+                                                        ❌取消
+                                                    </button>
                                                 </td>
                                             </>
                                         ) : (
@@ -137,7 +158,14 @@ function Book() {
                                                 <td>{book.retail_price}</td>
                                                 <td>{book.stock}</td>
                                                 <td>
-                                                    <button onClick={() => handleEdit(idx)} className="btn btn-warning btn-sm">✏️修改</button>
+                                                    <button
+                                                        onClick={() =>
+                                                            handleEdit(idx)
+                                                        }
+                                                        className="btn btn-warning btn-sm"
+                                                    >
+                                                        ✏️修改
+                                                    </button>
                                                 </td>
                                             </>
                                         )}
