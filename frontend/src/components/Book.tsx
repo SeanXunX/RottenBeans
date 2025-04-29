@@ -2,14 +2,14 @@ import { useState } from "react";
 import api from "../api";
 
 interface BookType {
-    id: string;           // Uuid 转成字符串传输
+    id: string;
     isbn: string;
     title: string;
     author: string;
     publisher: string;
-    retail_price: string;  // bigdecimal 一般也转成字符串
+    retail_price: string;
     stock: number;
-    created_at: string;    // NaiveDateTime 通常作为字符串（ISO时间戳）
+    created_at: string;
 }
 
 function Book() {
@@ -17,8 +17,10 @@ function Book() {
     const [searchValue, setSearchValue] = useState("");
     const [books, setBooks] = useState<BookType[]>([]);
 
+    const [editIndex, setEditIndex] = useState<number | null>(null);
+    const [editBook, setEditBook] = useState<Partial<BookType>>({});
+
     const handleSearch = async () => {
-        console.log("Searching: Type =", searchType, "; Value =", searchValue);
         try {
             const response = await api.get("/api/book/search", {
                 params: {
@@ -33,6 +35,37 @@ function Book() {
         }
     };
 
+    const handleEdit = (idx: number) => {
+        setEditIndex(idx);
+        setEditBook({ ...books[idx] });
+    };
+
+    const handleSave = async () => {
+        if (!editBook.id) return;
+
+        try {
+            await api.post("/api/book/update", editBook);
+            alert("Update successful!");
+            setEditIndex(null);
+            handleSearch();
+        } catch (error) {
+            console.log(error);
+            alert("Update failed.");
+        }
+    };
+
+    const handleCancel = () => {
+        setEditIndex(null);
+        setEditBook({});
+    };
+
+    const handleChange = (field: keyof BookType, value: string) => {
+        setEditBook((prev) => ({
+            ...prev,
+            [field]: value,
+        }));
+    };
+
     return (
         <>
             <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -44,9 +77,7 @@ function Book() {
                             onChange={(e) => setSearchType(e.target.value)}
                             className="form-select"
                         >
-                            <option value="place_holder" hidden>
-                                Search by ...
-                            </option>
+                            <option value="place_holder" hidden>Search by ...</option>
                             <option value="id">编号</option>
                             <option value="isbn">ISBN</option>
                             <option value="title">书名</option>
@@ -68,7 +99,6 @@ function Book() {
                     </button>
 
                     <div className="mt-4">
-                        {/* 查询结果区域，后面实现 */}
                         <h2>搜索结果</h2>
                         <table className="table">
                             <thead>
@@ -84,13 +114,33 @@ function Book() {
                             </thead>
                             <tbody>
                                 {books.map((book, idx) => (
-                                    <tr key={idx}>
-                                        <td>{book.isbn}</td>
-                                        <td>{book.title}</td>
-                                        <td>{book.author}</td>
-                                        <td>{book.publisher}</td>
-                                        <td>{book.retail_price}</td>
-                                        <td>{book.stock}</td>
+                                    <tr key={idx} className={editIndex === idx ? "table-warning" : ""}>
+                                        {editIndex === idx ? (
+                                            <>
+                                                <td><input value={editBook.isbn || ""} onChange={(e) => handleChange("isbn", e.target.value)} className="form-control" /></td>
+                                                <td><input value={editBook.title || ""} onChange={(e) => handleChange("title", e.target.value)} className="form-control" /></td>
+                                                <td><input value={editBook.author || ""} onChange={(e) => handleChange("author", e.target.value)} className="form-control" /></td>
+                                                <td><input value={editBook.publisher || ""} onChange={(e) => handleChange("publisher", e.target.value)} className="form-control" /></td>
+                                                <td><input value={editBook.retail_price || ""} onChange={(e) => handleChange("retail_price", e.target.value)} className="form-control" /></td>
+                                                <td><input value={editBook.stock?.toString() || ""} onChange={(e) => handleChange("stock", e.target.value)} className="form-control" /></td>
+                                                <td>
+                                                    <button onClick={handleSave} className="btn btn-success btn-sm me-2">✅确认</button>
+                                                    <button onClick={handleCancel} className="btn btn-secondary btn-sm">❌取消</button>
+                                                </td>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <td>{book.isbn}</td>
+                                                <td>{book.title}</td>
+                                                <td>{book.author}</td>
+                                                <td>{book.publisher}</td>
+                                                <td>{book.retail_price}</td>
+                                                <td>{book.stock}</td>
+                                                <td>
+                                                    <button onClick={() => handleEdit(idx)} className="btn btn-warning btn-sm">✏️修改</button>
+                                                </td>
+                                            </>
+                                        )}
                                     </tr>
                                 ))}
                             </tbody>

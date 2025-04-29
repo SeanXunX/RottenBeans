@@ -3,6 +3,7 @@ import json
 from bs4 import BeautifulSoup
 import time
 import re
+import uuid
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 Edg/135.0.0.0",
@@ -25,8 +26,8 @@ def parse_book_detail(book_url):
     data = {}
     resp = requests.get(book_url, headers=headers)
     soup = BeautifulSoup(resp.text, "html.parser")
-    book_title = soup.find('span', attrs={'property': 'v:itemreviewed'}).text.strip()
-   
+    data["id"] = str(uuid.uuid4())
+    book_title = soup.find("span", attrs={"property": "v:itemreviewed"}).text.strip()
     data["title"] = book_title
     info_text = soup.select_one("#info").get_text(separator="\n").strip()
 
@@ -51,7 +52,7 @@ def crawl_douban_top250():
         for link in book_links:
             print(f"抓取图书: {link}")
             book_data = parse_book_detail(link)
-            if len(book_data) == 5:
+            if len(book_data) == 6:
                 all_books.append(book_data)
             time.sleep(1)  # 延迟避免被封
         time.sleep(2)
@@ -61,7 +62,6 @@ def crawl_douban_top250():
         json.dump(all_books, file, ensure_ascii=False, indent=4)
 
     return all_books
-
 
 
 if __name__ == "__main__":

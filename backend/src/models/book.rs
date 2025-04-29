@@ -18,7 +18,7 @@ pub struct Book {
     pub created_at: NaiveDateTime,
 }
 
-#[derive(Insertable, Deserialize)]
+#[derive(Insertable, Deserialize, Serialize)]
 #[diesel(table_name = crate::schema::books)]
 pub struct NewBook {
     pub id: Uuid,

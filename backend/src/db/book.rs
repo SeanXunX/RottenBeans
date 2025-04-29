@@ -118,4 +118,10 @@ mod tests {
         let search = get_book(conn, QueryBook::Title(String::from("燃烧的远征")));
         assert!(search.is_ok());
     }
+
+    // #[test]
+    // fn book_update() {
+    //     let conn = &mut establish_connection();
+        
+    // }
 }

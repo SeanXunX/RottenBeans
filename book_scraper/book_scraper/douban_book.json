@@ -1,282 +1,314 @@
 [
-    {
-        "title": "红楼梦",
-        "author": "[清] 曹雪芹",
-        "publisher": "人民文学出版社",
-        "retail_price": "59.70元",
-        "isbn": "9787020002207"
-    },
-    {
-        "title": "活着",
-        "author": "余华",
-        "publisher": "作家出版社",
-        "retail_price": "28.00元",
-        "isbn": "9787506365437"
-    },
-    {
-        "title": "哈利·波特",
-        "author": "J.K.罗琳 (J.K.Rowling)",
-        "publisher": "人民文学出版社",
-        "retail_price": "498.00元",
-        "isbn": "9787020096695"
-    },
-    {
-        "title": "1984",
-        "author": "[英] 乔治·奥威尔",
-        "publisher": "北京十月文艺出版社",
-        "retail_price": "28.00",
-        "isbn": "9787530210291"
-    },
-    {
-        "title": "三体全集",
-        "author": "刘慈欣",
-        "publisher": "重庆出版社",
-        "retail_price": "168.00元",
-        "isbn": "9787229042066"
-    },
-    {
-        "title": "百年孤独",
-        "author": "[哥伦比亚] 加西亚·马尔克斯",
-        "publisher": "南海出版公司",
-        "retail_price": "39.50元",
-        "isbn": "9787544253994"
-    },
-    {
-        "title": "飘",
-        "author": "[美国] 玛格丽特·米切尔",
-        "publisher": "译林出版社",
-        "retail_price": "40.00元",
-        "isbn": "9787806570920"
-    },
-    {
-        "title": "房思琪的初恋乐园",
-        "author": "林奕含",
-        "publisher": "北京联合出版公司",
-        "retail_price": "45.00元",
-        "isbn": "9787559614636"
-    },
-    {
-        "title": "三国演义（全二册）",
-        "author": "[明] 罗贯中",
-        "publisher": "人民文学出版社",
-        "retail_price": "39.50元",
-        "isbn": "9787020008728"
-    },
-    {
-        "title": "白夜行",
-        "author": "[日] 东野圭吾",
-        "publisher": "南海出版公司",
-        "retail_price": "39.50元",
-        "isbn": "9787544258609"
-    },
-    {
-        "title": "邓小平时代",
-        "author": "【美】傅高义 (Ezra.F.Vogel)",
-        "publisher": "生活·读书·新知三联书店",
-        "retail_price": "88.00元",
-        "isbn": "9787108041531"
-    },
-    {
-        "title": "小王子",
-        "author": "[法] 圣埃克苏佩里",
-        "publisher": "人民文学出版社",
-        "retail_price": "22.00元",
-        "isbn": "9787020042494"
-    },
-    {
-        "title": "安徒生童话故事集",
-        "author": "（丹麦）安徒生",
-        "publisher": "人民文学出版社",
-        "retail_price": "25.00元",
-        "isbn": "9787020017713"
-    },
-    {
-        "title": "天龙八部",
-        "author": "金庸",
-        "publisher": "生活·读书·新知三联书店",
-        "retail_price": "96.00元",
-        "isbn": "9787108006721"
-    },
-    {
-        "title": "撒哈拉的故事",
-        "author": "三毛",
-        "publisher": "哈尔滨出版社",
-        "retail_price": "15.80元",
-        "isbn": "9787806398791"
-    },
-    {
-        "title": "失踪的孩子",
-        "author": "[意] 埃莱娜·费兰特",
-        "publisher": "人民文学出版社",
-        "retail_price": "62.00元",
-        "isbn": "9787020139927"
-    },
-    {
-        "title": "杀死一只知更鸟",
-        "author": "[美国]",
-        "publisher": "译林出版社",
-        "retail_price": "32.00元",
-        "isbn": "9787544722766"
-    },
-    {
-        "title": "新名字的故事",
-        "author": "[意] 埃莱娜·费兰特",
-        "publisher": "人民文学出版社",
-        "retail_price": "59.00元",
-        "isbn": "9787020125265"
-    },
-    {
-        "title": "明朝那些事儿（1-9）",
-        "author": "当年明月",
-        "publisher": "中国海关出版社",
-        "retail_price": "358.20元",
-        "isbn": "9787801656087"
-    },
-    {
-        "title": "卡拉马佐夫兄弟",
-        "author": "[俄] 费奥多尔·陀思妥耶夫斯基",
-        "publisher": "上海译文出版社",
-        "retail_price": "CNY 78.00",
-        "isbn": "9787532763696"
-    },
-    {
-        "title": "悉达多",
-        "author": "[德] 赫尔曼·黑塞",
-        "publisher": "天津人民出版社",
-        "retail_price": "32.00元",
-        "isbn": "9787201112695"
-    },
-    {
-        "title": "中国历代政治得失",
-        "author": "钱穆",
-        "publisher": "生活·读书·新知三联书店",
-        "retail_price": "12.00元",
-        "isbn": "9787108015280"
-    },
-    {
-        "title": "沉默的大多数",
-        "author": "王小波",
-        "publisher": "中国青年出版社",
-        "retail_price": "27.00元",
-        "isbn": "9787500627098"
-    },
-    {
-        "title": "罗杰疑案",
-        "author": "[英] 阿加莎·克里斯蒂",
-        "publisher": "新星出版社",
-        "retail_price": "28.00元",
-        "isbn": "9787513311236"
-    },
-    {
-        "title": "局外人",
-        "author": "[法] 阿尔贝·加缪",
-        "publisher": "上海译文出版社",
-        "retail_price": "22.00元",
-        "isbn": "9787532751471"
-    },
-    {
-        "title": "许三观卖血记",
-        "author": "余华",
-        "publisher": "作家出版社",
-        "retail_price": "24.00元",
-        "isbn": "9787506365680"
-    },
-    {
-        "title": "白鹿原",
-        "author": "陈忠实",
-        "publisher": "人民文学出版社",
-        "retail_price": "39.00元",
-        "isbn": "9787020090297"
-    },
-    {
-        "title": "我与地坛",
-        "author": "史铁生",
-        "publisher": "春风文艺出版社",
-        "retail_price": "25.00元",
-        "isbn": "9787531324362"
-    },
-    {
-        "title": "乡土中国",
-        "author": "费孝通",
-        "publisher": "上海人民出版社",
-        "retail_price": "38.00",
-        "isbn": "9787208062153"
-    },
-    {
-        "title": "人类简史",
-        "author": "[以色列] 尤瓦尔·赫拉利",
-        "publisher": "中信出版社",
-        "retail_price": "68.00元",
-        "isbn": "9787508647357"
-    },
-    {
-        "title": "笑傲江湖（全四册）",
-        "author": "金庸",
-        "publisher": "生活·读书·新知三联书店",
-        "retail_price": "76.80元",
-        "isbn": "9787108006639"
-    },
-    {
-        "title": "平凡的世界（全三部）",
-        "author": "路遥",
-        "publisher": "人民文学出版社",
-        "retail_price": "64.00元",
-        "isbn": "9787020049295"
-    },
-    {
-        "title": "献给阿尔吉侬的花束",
-        "author": "[美] 丹尼尔·凯斯",
-        "publisher": "广西师范大学出版社",
-        "retail_price": "36.00元",
-        "isbn": "9787549565115"
-    },
-    {
-        "title": "围城",
-        "author": "钱锺书",
-        "publisher": "人民文学出版社",
-        "retail_price": "19.00",
-        "isbn": "9787020024759"
-    },
-    {
-        "title": "肖申克的救赎",
-        "author": "[美] 斯蒂芬·金",
-        "publisher": "人民文学出版社",
-        "retail_price": "29.90元",
-        "isbn": "9787020054985"
-    },
-    {
-        "title": "城南旧事",
-        "author": "林海音 文",
-        "publisher": "中国青年出版社",
-        "retail_price": "16.00元",
-        "isbn": "9787500652045"
-    },
-    {
-        "title": "基督山伯爵",
-        "author": "[法国] 大仲马",
-        "publisher": "上海译文出版社",
-        "retail_price": "43.90元",
-        "isbn": "9787532712243"
-    },
-    {
-        "title": "万历十五年",
-        "author": "[美] 黄仁宇",
-        "publisher": "生活·读书·新知三联书店",
-        "retail_price": "18.00元",
-        "isbn": "9787108009821"
-    },
-    {
-        "title": "霍乱时期的爱情",
-        "author": "[哥伦比亚] 加西亚·马尔克斯",
-        "publisher": "南海出版公司",
-        "retail_price": "39.50元",
-        "isbn": "9787544258975"
-    },
-    {
-        "title": "秋园",
-        "author": "杨本芬",
-        "publisher": "北京联合出版公司",
-        "retail_price": "38.00元",
-        "isbn": "9787559640666"
-    }
+  {
+    "id": "4139093e-132b-4a01-ac24-8fdc22136beb",
+    "isbn": "9787020002207",
+    "title": "红楼梦",
+    "author": "[清] 曹雪芹 著",
+    "publisher": "人民文学出版社",
+    "retail_price": "59.70"
+  },
+  {
+    "id": "93757194-3fe2-496d-a6c2-c98548926dbe",
+    "isbn": "9787506365437",
+    "title": "活着",
+    "author": "余华",
+    "publisher": "作家出版社",
+    "retail_price": "28.00"
+  },
+  {
+    "id": "fcbda526-752c-49ce-b32c-0c7c92e70760",
+    "isbn": "9787020096695",
+    "title": "哈利·波特",
+    "author": "J.K.罗琳 (J.K.Rowling)",
+    "publisher": "人民文学出版社",
+    "retail_price": "498.00"
+  },
+  {
+    "id": "3ad62cd3-bec1-4efa-8f76-c40ad7c4b25f",
+    "isbn": "9787530210291",
+    "title": "1984",
+    "author": "[英] 乔治·奥威尔",
+    "publisher": "北京十月文艺出版社",
+    "retail_price": "28.00"
+  },
+  {
+    "id": "96a017d5-2b94-4043-b51a-e18c1af5a730",
+    "isbn": "9787229042066",
+    "title": "三体全集",
+    "author": "刘慈欣",
+    "publisher": "重庆出版社",
+    "retail_price": "168.00"
+  },
+  {
+    "id": "2857f8f3-bb50-4fb4-8b45-5d94861c8431",
+    "isbn": "9787544253994",
+    "title": "百年孤独",
+    "author": "[哥伦比亚] 加西亚·马尔克斯",
+    "publisher": "南海出版公司",
+    "retail_price": "39.50"
+  },
+  {
+    "id": "710121f4-b9d4-4830-ba68-08cc6222db1c",
+    "isbn": "9787806570920",
+    "title": "飘",
+    "author": "[美国] 玛格丽特·米切尔",
+    "publisher": "译林出版社",
+    "retail_price": "40.00"
+  },
+  {
+    "id": "8321c1f8-c1dd-46f3-b3f4-c06a7f36c254",
+    "isbn": "9787559614636",
+    "title": "房思琪的初恋乐园",
+    "author": "林奕含",
+    "publisher": "北京联合出版公司",
+    "retail_price": "45.00"
+  },
+  {
+    "id": "defa262c-5e16-44bf-967e-5af51aa12065",
+    "isbn": "9787020008728",
+    "title": "三国演义（全二册）",
+    "author": "[明] 罗贯中",
+    "publisher": "人民文学出版社",
+    "retail_price": "39.50"
+  },
+  {
+    "id": "4d91c5a9-2df6-44b7-91d6-b92f20278f1b",
+    "isbn": "9787544258609",
+    "title": "白夜行",
+    "author": "[日] 东野圭吾",
+    "publisher": "南海出版公司",
+    "retail_price": "39.50"
+  },
+  {
+    "id": "5edb8b5a-e121-43b1-a3f2-6a2321a50e64",
+    "isbn": "9787108041531",
+    "title": "邓小平时代",
+    "author": "【美】傅高义 (Ezra.F.Vogel)",
+    "publisher": "生活·读书·新知三联书店",
+    "retail_price": "88.00"
+  },
+  {
+    "id": "8546c567-6cad-4b18-99bf-e70a2afca275",
+    "isbn": "9787020042494",
+    "title": "小王子",
+    "author": "[法] 圣埃克苏佩里",
+    "publisher": "人民文学出版社",
+    "retail_price": "22.00"
+  },
+  {
+    "id": "8956bd69-96c6-4666-9ffc-96d679af16e6",
+    "isbn": "9787020017713",
+    "title": "安徒生童话故事集",
+    "author": "（丹麦）安徒生",
+    "publisher": "人民文学出版社",
+    "retail_price": "25.00"
+  },
+  {
+    "id": "9b0677b6-90a0-4aaa-b320-32bb552b0f3e",
+    "isbn": "9787108006721",
+    "title": "天龙八部",
+    "author": "金庸",
+    "publisher": "生活·读书·新知三联书店",
+    "retail_price": "96.00"
+  },
+  {
+    "id": "7195a846-4274-4f0c-ac21-2ea07bc94b5b",
+    "isbn": "9787806398791",
+    "title": "撒哈拉的故事",
+    "author": "三毛",
+    "publisher": "哈尔滨出版社",
+    "retail_price": "15.80"
+  },
+  {
+    "id": "c07792b1-55f8-451f-9ba2-2ab72b32a83a",
+    "isbn": "9787020139927",
+    "title": "失踪的孩子",
+    "author": "[意] 埃莱娜·费兰特",
+    "publisher": "人民文学出版社",
+    "retail_price": "62.00"
+  },
+  {
+    "id": "d3f1dde3-f599-4d12-820c-276960044c8b",
+    "isbn": "9787020125265",
+    "title": "新名字的故事",
+    "author": "[意] 埃莱娜·费兰特",
+    "publisher": "人民文学出版社",
+    "retail_price": "59.00"
+  },
+  {
+    "id": "27e85303-6d02-4cf4-9e73-8fc686e80e06",
+    "isbn": "9787801656087",
+    "title": "明朝那些事儿（1-9）",
+    "author": "当年明月",
+    "publisher": "中国海关出版社",
+    "retail_price": "358.20"
+  },
+  {
+    "id": "fa25928c-91e7-4460-8f94-01e33278448e",
+    "isbn": "9787532763696",
+    "title": "卡拉马佐夫兄弟",
+    "author": "[俄] 费奥多尔·陀思妥耶夫斯基",
+    "publisher": "上海译文出版社",
+    "retail_price": "78.00"
+  },
+  {
+    "id": "74720cd3-d334-444d-be81-105f61a423e9",
+    "isbn": "9787201112695",
+    "title": "悉达多",
+    "author": "[德] 赫尔曼·黑塞",
+    "publisher": "天津人民出版社",
+    "retail_price": "32.00"
+  },
+  {
+    "id": "4306c6c0-6823-4102-9449-d6932f0e30b2",
+    "isbn": "9787108015280",
+    "title": "中国历代政治得失",
+    "author": "钱穆",
+    "publisher": "生活·读书·新知三联书店",
+    "retail_price": "12.00"
+  },
+  {
+    "id": "47dea2ca-9710-484a-a92a-d6fddbffcbb3",
+    "isbn": "9787500627098",
+    "title": "沉默的大多数",
+    "author": "王小波",
+    "publisher": "中国青年出版社",
+    "retail_price": "27.00"
+  },
+  {
+    "id": "e6d8ea7f-417d-48d6-a9f0-91056d202765",
+    "isbn": "9787513311236",
+    "title": "罗杰疑案",
+    "author": "[英] 阿加莎·克里斯蒂",
+    "publisher": "新星出版社",
+    "retail_price": "28.00"
+  },
+  {
+    "id": "7cb99872-e6be-4a04-9194-7dbed3835665",
+    "isbn": "9787532751471",
+    "title": "局外人",
+    "author": "[法] 阿尔贝·加缪",
+    "publisher": "上海译文出版社",
+    "retail_price": "22.00"
+  },
+  {
+    "id": "92b31ace-abbd-45d5-890c-cfd79f6f5db7",
+    "isbn": "9787506365680",
+    "title": "许三观卖血记",
+    "author": "余华",
+    "publisher": "作家出版社",
+    "retail_price": "24.00"
+  },
+  {
+    "id": "7bd33891-bec8-4047-9201-ace7ce444db6",
+    "isbn": "9787020090297",
+    "title": "白鹿原",
+    "author": "陈忠实",
+    "publisher": "人民文学出版社",
+    "retail_price": "39.00"
+  },
+  {
+    "id": "b1a33eb9-22fc-4681-b217-382dab6656a4",
+    "isbn": "9787531324362",
+    "title": "我与地坛",
+    "author": "史铁生",
+    "publisher": "春风文艺出版社",
+    "retail_price": "25.00"
+  },
+  {
+    "id": "64274c70-4c6a-4a99-90fe-5e637d9aa671",
+    "isbn": "9787208062153",
+    "title": "乡土中国",
+    "author": "费孝通",
+    "publisher": "上海人民出版社",
+    "retail_price": "38.00"
+  },
+  {
+    "id": "d1fa029e-2f54-4eac-84b8-d84ef2743655",
+    "isbn": "9787508647357",
+    "title": "人类简史",
+    "author": "[以色列] 尤瓦尔·赫拉利",
+    "publisher": "中信出版社",
+    "retail_price": "68.00"
+  },
+  {
+    "id": "dfe6e058-fd32-4403-9e38-8d6079654184",
+    "isbn": "9787108006639",
+    "title": "笑傲江湖（全四册）",
+    "author": "金庸",
+    "publisher": "生活·读书·新知三联书店",
+    "retail_price": "76.80"
+  },
+  {
+    "id": "a5882ced-a9df-42e6-aed8-4b07507a45e0",
+    "isbn": "9787020049295",
+    "title": "平凡的世界（全三部）",
+    "author": "路遥",
+    "publisher": "人民文学出版社",
+    "retail_price": "64.00"
+  },
+  {
+    "id": "fafb2aaa-0312-4ff0-bbff-15f2cdd039c6",
+    "isbn": "9787549565115",
+    "title": "献给阿尔吉侬的花束",
+    "author": "[美] 丹尼尔·凯斯",
+    "publisher": "广西师范大学出版社",
+    "retail_price": "36.00"
+  },
+  {
+    "id": "a65cba01-c44a-41e8-8c45-8cfca5898249",
+    "isbn": "9787020024759",
+    "title": "围城",
+    "author": "钱锺书",
+    "publisher": "人民文学出版社",
+    "retail_price": "19.00"
+  },
+  {
+    "id": "0ad4148e-43d7-4e44-861e-3eab019dd005",
+    "isbn": "9787020054985",
+    "title": "肖申克的救赎",
+    "author": "[美] 斯蒂芬·金",
+    "publisher": "人民文学出版社",
+    "retail_price": "29.90"
+  },
+  {
+    "id": "fd1ab0d5-c87f-464c-a9ca-a1361c112575",
+    "isbn": "9787500652045",
+    "title": "城南旧事",
+    "author": "林海音 文",
+    "publisher": "中国青年出版社",
+    "retail_price": "16.00"
+  },
+  {
+    "id": "c99fa3dc-4333-47ce-81c1-2524ec112b5d",
+    "isbn": "9787532712243",
+    "title": "基督山伯爵",
+    "author": "[法国] 大仲马",
+    "publisher": "上海译文出版社",
+    "retail_price": "43.90"
+  },
+  {
+    "id": "85950bfe-d65a-4f2a-9290-0ee09fc602ef",
+    "isbn": "9787108009821",
+    "title": "万历十五年",
+    "author": "[美] 黄仁宇",
+    "publisher": "生活·读书·新知三联书店",
+    "retail_price": "18.00"
+  },
+  {
+    "id": "dd655819-7fd2-4ca9-aa51-e18af01ab680",
+    "isbn": "9787544258975",
+    "title": "霍乱时期的爱情",
+    "author": "[哥伦比亚] 加西亚·马尔克斯",
+    "publisher": "南海出版公司",
+    "retail_price": "39.50"
+  },
+  {
+    "id": "3259f3b7-c699-4e0a-98d7-101ed3c33861",
+    "isbn": "9787559640666",
+    "title": "秋园",
+    "author": "杨本芬",
+    "publisher": "北京联合出版公司",
+    "retail_price": "38.00"
+  }
 ]
