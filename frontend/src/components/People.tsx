@@ -11,6 +11,8 @@ interface PeopleType {
     age: number;
 }
 
+type NewPeopleType = Omit<PeopleType, "id">;
+
 function PeoplePage() {
     const [users, setUsers] = useState<PeopleType[]>([]);
     const [editIndex, setEditIndex] = useState<number | null>(null);
@@ -63,9 +65,16 @@ function PeoplePage() {
     const handleChange = (field: keyof PeopleType, value: string) => {
         setEditUser((prev) => ({
             ...prev,
-            [field]: field === "age" || field === "employee_id" ? parseInt(value) : value,
+            [field]:
+                field === "age" || field === "employee_id"
+                    ? parseInt(value)
+                    : value,
         }));
     };
+
+    const [creating, setCreating] = useState(false);
+
+    const handleDelete = (idx: number) => {};
 
     return (
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -87,7 +96,9 @@ function PeoplePage() {
                         {users.map((user, idx) => (
                             <tr
                                 key={user.id}
-                                className={editIndex === idx ? "table-warning" : ""}
+                                className={
+                                    editIndex === idx ? "table-warning" : ""
+                                }
                             >
                                 {editIndex === idx ? (
                                     <>
@@ -97,7 +108,10 @@ function PeoplePage() {
                                                 className="form-control"
                                                 value={editUser.password || ""}
                                                 onChange={(e) =>
-                                                    handleChange("password", e.target.value)
+                                                    handleChange(
+                                                        "password",
+                                                        e.target.value
+                                                    )
                                                 }
                                             />
                                         </td>
@@ -106,16 +120,25 @@ function PeoplePage() {
                                                 className="form-control"
                                                 value={editUser.real_name || ""}
                                                 onChange={(e) =>
-                                                    handleChange("real_name", e.target.value)
+                                                    handleChange(
+                                                        "real_name",
+                                                        e.target.value
+                                                    )
                                                 }
                                             />
                                         </td>
                                         <td>
                                             <input
                                                 className="form-control"
-                                                value={editUser.employee_id?.toString() || ""}
+                                                value={
+                                                    editUser.employee_id?.toString() ||
+                                                    ""
+                                                }
                                                 onChange={(e) =>
-                                                    handleChange("employee_id", e.target.value)
+                                                    handleChange(
+                                                        "employee_id",
+                                                        e.target.value
+                                                    )
                                                 }
                                             />
                                         </td>
@@ -124,16 +147,25 @@ function PeoplePage() {
                                                 className="form-control"
                                                 value={editUser.gender || ""}
                                                 onChange={(e) =>
-                                                    handleChange("gender", e.target.value)
+                                                    handleChange(
+                                                        "gender",
+                                                        e.target.value
+                                                    )
                                                 }
                                             />
                                         </td>
                                         <td>
                                             <input
                                                 className="form-control"
-                                                value={editUser.age?.toString() || ""}
+                                                value={
+                                                    editUser.age?.toString() ||
+                                                    ""
+                                                }
                                                 onChange={(e) =>
-                                                    handleChange("age", e.target.value)
+                                                    handleChange(
+                                                        "age",
+                                                        e.target.value
+                                                    )
                                                 }
                                             />
                                         </td>
@@ -163,19 +195,178 @@ function PeoplePage() {
                                         <td>
                                             <button
                                                 onClick={() => handleEdit(idx)}
-                                                className="btn btn-warning btn-sm"
+                                                className="btn btn-warning btn-sm me-2"
                                             >
                                                 ✏️修改
                                             </button>
+
+                                            {user.username === "admin" ? (
+                                                <></>
+                                            ) : (
+                                                <button
+                                                    onClick={() =>
+                                                        handleDelete(idx)
+                                                    }
+                                                    className="btn btn-danger btn-sm me-2"
+                                                >
+                                                    ☠️删除
+                                                </button>
+                                            )}
                                         </td>
                                     </>
                                 )}
                             </tr>
                         ))}
+                        <NewPeople
+                            creating={creating}
+                            setCreating={setCreating}
+                            fetchUsers={fetchUsers}
+                        />
                     </tbody>
                 </table>
+
+                <button
+                    className="btn btn-success mb-2"
+                    onClick={() => setCreating(true)}
+                >
+                    ➕ 创建新用户
+                </button>
             </div>
         </main>
+    );
+}
+
+interface NewPeopleProps {
+    creating: boolean;
+    setCreating: React.Dispatch<React.SetStateAction<boolean>>;
+    fetchUsers: () => Promise<void>;
+}
+
+function NewPeople({ creating, setCreating, fetchUsers }: NewPeopleProps) {
+    const [newUser, setNewUser] = useState<Partial<NewPeopleType>>({});
+
+    const handleChange = (field: keyof NewPeopleType, value: string) => {
+        setNewUser((prev) => ({
+            ...prev,
+            [field]:
+                field === "age" || field === "employee_id"
+                    ? parseInt(value)
+                    : value,
+        }));
+    };
+
+    const requiredKeys: (keyof NewPeopleType)[] = [
+        "username",
+        "password",
+        "real_name",
+        "employee_id",
+        "gender",
+        "age",
+    ];
+
+    const isCompleteUser = (
+        user: Partial<NewPeopleType>
+    ): user is NewPeopleType => {
+        return requiredKeys.every((key) => user[key] !== undefined);
+    };
+
+    const handleCreate = async () => {
+        if (!isCompleteUser(newUser)) {
+            return;
+        }
+
+        try {
+            await api.post("/api/users", newUser);
+            alert("Update successful");
+            setCreating(false);
+            setNewUser({});
+            fetchUsers();
+        } catch (e) {
+            console.log(e);
+            alert("Create failed.");
+        }
+    };
+
+    return (
+        <>
+            {creating && (
+                <tr>
+                    <td>
+                        <input
+                            value={newUser.username}
+                            onChange={(e) =>
+                                handleChange("username", e.target.value)
+                            }
+                            className="form-control"
+                        />
+                    </td>
+                    <td>
+                        <input
+                            value={newUser.password}
+                            onChange={(e) =>
+                                handleChange("password", e.target.value)
+                            }
+                            className="form-control"
+                        />
+                    </td>
+                    <td>
+                        <input
+                            value={newUser.real_name}
+                            onChange={(e) =>
+                                handleChange("real_name", e.target.value)
+                            }
+                            className="form-control"
+                        />
+                    </td>
+                    <td>
+                        <input
+                            value={newUser.employee_id}
+                            onChange={(e) =>
+                                handleChange("employee_id", e.target.value)
+                            }
+                            className="form-control"
+                        />
+                    </td>
+                    <td>
+                        <input
+                            value={newUser.gender}
+                            onChange={(e) =>
+                                handleChange("gender", e.target.value)
+                            }
+                            className="form-control"
+                        />
+                    </td>
+                    <td>
+                        <input
+                            value={newUser.age}
+                            onChange={(e) =>
+                                handleChange("age", e.target.value)
+                            }
+                            className="form-control"
+                        />
+                    </td>
+                    <td>
+                        <div className="flex gap-2">
+                            <button
+                                className="btn btn-primary btn-sm"
+                                onClick={handleCreate}
+                            >
+                                💾保存
+                            </button>
+                            <button
+                                className="btn btn-secondary btn-sm"
+                                onClick={() => {
+                                    setNewUser({});
+                                    setCreating(false);
+                                }}
+                            >
+                                ❌取消
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            )}
+        </>
     );
 }
 

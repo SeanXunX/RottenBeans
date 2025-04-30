@@ -44,16 +44,16 @@ pub fn get_book(conn: &mut PgConnection, query_enum: QueryBook) -> QueryResult<V
     match query_enum {
         QueryBook::Id(id_val) => query.filter(books::id.eq(id_val)),
         QueryBook::Isbn(isbn_val) => query
-.filter(books::isbn.like(format!("%{}%", isbn_val)))
+            .filter(books::isbn.like(format!("%{}%", isbn_val)))
             .order_by(books::isbn.asc()),
         QueryBook::Title(title_val) => query
-.filter(books::title.like(format!("%{}%", title_val)))
+            .filter(books::title.like(format!("%{}%", title_val)))
             .order_by(books::title.asc()),
         QueryBook::Author(author_val) => query
-.filter(books::author.like(format!("%{}%", author_val)))
+            .filter(books::author.like(format!("%{}%", author_val)))
             .order_by(books::author.asc()),
         QueryBook::Publisher(publisher_val) => query
-.filter(books::publisher.like(format!("%{}%", publisher_val)))
+            .filter(books::publisher.like(format!("%{}%", publisher_val)))
             .order_by(books::publisher.asc()),
     }
     .select(Book::as_select())
@@ -130,6 +130,6 @@ mod tests {
     // #[test]
     // fn book_update() {
     //     let conn = &mut establish_connection();
-        
+
     // }
 }
