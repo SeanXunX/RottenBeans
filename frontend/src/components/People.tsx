@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../api";
+import { AxiosError } from "axios";
 
 interface PeopleType {
     id: number;
@@ -22,9 +23,10 @@ function PeoplePage() {
         try {
             const res = await api.get("/api/users");
             setUsers(res.data);
-        } catch (err) {
+        } catch (err: any) {
             console.error(err);
-            alert("获取用户列表失败");
+            const message = err.response.data;
+            alert(`${message}`);
         }
     };
 
@@ -65,16 +67,25 @@ function PeoplePage() {
     const handleChange = (field: keyof PeopleType, value: string) => {
         setEditUser((prev) => ({
             ...prev,
-            [field]:
-                field === "age" || field === "employee_id"
-                    ? parseInt(value)
-                    : value,
+            [field]: value,
+                // field === "age" || field === "employee_id"
+                //     ? parseInt(value)
+                //     : value,
         }));
     };
 
     const [creating, setCreating] = useState(false);
 
-    const handleDelete = (idx: number) => {};
+    const handleDelete = async (idx: number) => {
+        try {
+            await api.delete(`/api/user/${users[idx].username}`);
+            alert("Delete succeeded");
+            fetchUsers();
+        } catch(error) {
+            console.error(error);
+            alert("Delete failed");
+        }
+    };
 
     return (
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -248,10 +259,10 @@ function NewPeople({ creating, setCreating, fetchUsers }: NewPeopleProps) {
     const handleChange = (field: keyof NewPeopleType, value: string) => {
         setNewUser((prev) => ({
             ...prev,
-            [field]:
-                field === "age" || field === "employee_id"
-                    ? parseInt(value)
-                    : value,
+            [field]: value,
+                // field === "age" || field === "employee_id"
+                //     ? parseInt(value)
+                //     : value,
         }));
     };
 
@@ -320,7 +331,7 @@ function NewPeople({ creating, setCreating, fetchUsers }: NewPeopleProps) {
                     </td>
                     <td>
                         <input
-                            value={newUser.employee_id}
+                            value={newUser.employee_id?.toString()}
                             onChange={(e) =>
                                 handleChange("employee_id", e.target.value)
                             }
@@ -338,7 +349,7 @@ function NewPeople({ creating, setCreating, fetchUsers }: NewPeopleProps) {
                     </td>
                     <td>
                         <input
-                            value={newUser.age}
+                            value={newUser.age?.toString() || ""}
                             onChange={(e) =>
                                 handleChange("age", e.target.value)
                             }

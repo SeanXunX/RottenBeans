@@ -1,7 +1,7 @@
 use crate::auth::*;
 use crate::db::{DbPool, user::*};
 use crate::models::user::*;
-use actix_web::{HttpResponse, Responder, get, post, put, web};
+use actix_web::{HttpResponse, Responder, delete, get, post, put, web};
 use md5;
 use serde::{Deserialize, Serialize};
 
@@ -94,10 +94,29 @@ async fn list_all_users(pool: web::Data<DbPool>, user: AuthUser) -> impl Respond
     }
 }
 
+#[delete("/user/{username}")]
+async fn delete_user(
+    pool: web::Data<DbPool>,
+    user: AuthUser,
+    username: web::Path<String>,
+) -> impl Responder {
+    if !user.is_super {
+        HttpResponse::Forbidden().body("Only super user can delete users")
+    } else {
+        let mut conn = pool.get().unwrap();
+        let uname = username.into_inner();
+        match delete_user_by_username(&mut conn, &uname) {
+            Ok(_) => HttpResponse::Ok().body("Delete succeeded"),
+            Err(_) => HttpResponse::InternalServerError().body("Delete failed"),
+        }
+    }
+}
+
 pub fn config(cfg: &mut web::ServiceConfig) {
     cfg.service(login)
         .service(create_user)
         .service(get_my_info)
         .service(update_my_info)
-        .service(list_all_users);
+        .service(list_all_users)
+        .service(delete_user);
 }
