@@ -68,14 +68,28 @@ async fn get_my_info(pool: web::Data<DbPool>, user: AuthUser) -> impl Responder 
     }
 }
 
-#[put("/me")]
+#[put("/update/{uname}/{is_passord_change}")]
 async fn update_my_info(
     pool: web::Data<DbPool>,
     user: AuthUser,
+    path_info: web::Path<(String, bool)>,
     info: web::Json<UpdateUserInfo>,
 ) -> impl Responder {
     let mut conn = pool.get().unwrap();
-    match update_user_info(&mut conn, &user.username, &info.into_inner()) {
+    let (update_uname, is_password_change) = path_info.into_inner();
+
+    if !user.is_super && !(user.username == update_uname) {
+        return HttpResponse::Forbidden().body("Only super user can edit others' info");
+    }
+
+    let mut update_info = info.into_inner();
+    if is_password_change {
+        update_info.password = format!("{:x}", md5::compute(update_info.password.unwrap())).into();
+    } else {
+        update_info.password = None;
+    }
+
+    match update_user_info(&mut conn, &update_uname, &update_info) {
         Ok(u) => HttpResponse::Ok().json(u),
         Err(_) => HttpResponse::InternalServerError().body("Failed to update info"),
     }

@@ -8,7 +8,7 @@ interface BookType {
     author: string;
     publisher: string;
     retail_price: string;
-    stock: number;
+    stock: string;
     created_at: string;
 }
 
@@ -44,7 +44,14 @@ function Book() {
         if (!editBook.id) return;
 
         try {
-            await api.put(`/api/book/update/${editBook.id}`, editBook);
+            const dataSubmit = {
+                ...editBook,
+                ...(editBook.retail_price
+                    ? { retail_price: parseFloat(editBook.retail_price) }
+                    : {}),
+                ...(editBook.stock ? { stock: parseInt(editBook.stock) } : {}),
+            };
+            await api.put(`/api/book/update/${editBook.id}`, dataSubmit);
             alert("Update successful!");
             setEditIndex(null);
             handleSearch();
@@ -128,12 +135,94 @@ function Book() {
                                     >
                                         {editIndex === idx ? (
                                             <>
-                                                <td><input value={editBook.isbn || ""} onChange={(e) => handleChange("isbn", e.target.value)} className="form-control" /></td>
-                                                <td><input value={editBook.title || ""} onChange={(e) => handleChange("title", e.target.value)} className="form-control" /></td>
-                                                <td><input value={editBook.author || ""} onChange={(e) => handleChange("author", e.target.value)} className="form-control" /></td>
-                                                <td><input value={editBook.publisher || ""} onChange={(e) => handleChange("publisher", e.target.value)} className="form-control" /></td>
-                                                <td><input value={editBook.retail_price || ""} onChange={(e) => handleChange("retail_price", e.target.value)} className="form-control" /></td>
-                                                <td><input value={editBook.stock?.toString() || ""} onChange={(e) => handleChange("stock", e.target.value)} className="form-control" /></td>
+                                                <td>
+                                                    <input
+                                                        value={
+                                                            editBook.isbn || ""
+                                                        }
+                                                        onChange={(e) =>
+                                                            handleChange(
+                                                                "isbn",
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                        className="form-control"
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        value={
+                                                            editBook.title || ""
+                                                        }
+                                                        onChange={(e) =>
+                                                            handleChange(
+                                                                "title",
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                        className="form-control"
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        value={
+                                                            editBook.author ||
+                                                            ""
+                                                        }
+                                                        onChange={(e) =>
+                                                            handleChange(
+                                                                "author",
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                        className="form-control"
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        value={
+                                                            editBook.publisher ||
+                                                            ""
+                                                        }
+                                                        onChange={(e) =>
+                                                            handleChange(
+                                                                "publisher",
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                        className="form-control"
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        value={
+                                                            editBook.retail_price ||
+                                                            ""
+                                                        }
+                                                        onChange={(e) =>
+                                                            handleChange(
+                                                                "retail_price",
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                        className="form-control"
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <input
+                                                        value={
+                                                            editBook.stock?.toString() ||
+                                                            ""
+                                                        }
+                                                        onChange={(e) =>
+                                                            handleChange(
+                                                                "stock",
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                        className="form-control"
+                                                    />
+                                                </td>
                                                 <td>
                                                     <button
                                                         onClick={handleSave}

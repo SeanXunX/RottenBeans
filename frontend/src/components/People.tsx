@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import api from "../api";
-import { AxiosError } from "axios";
 
 interface PeopleType {
     id: number;
     username: string;
     password: string;
     real_name: string;
-    employee_id: number;
+    employee_id: string;
     gender: string;
-    age: number;
+    age: string;
 }
 
 type NewPeopleType = Omit<PeopleType, "id">;
@@ -21,8 +20,15 @@ function PeoplePage() {
 
     const fetchUsers = async () => {
         try {
-            const res = await api.get("/api/users");
-            setUsers(res.data);
+            let username = sessionStorage.getItem("username");
+            let res;
+            if (username !== "admin") {
+                res = await api.get("/api/me");
+                setUsers([res.data]);
+            } else {
+                res = await api.get("/api/users");
+                setUsers(res.data);
+            }
         } catch (err: any) {
             console.error(err);
             const message = err.response.data;
@@ -48,13 +54,18 @@ function PeoplePage() {
         if (!editUser.username) return;
 
         try {
-            await api.put(`/api/user/update/${editUser.username}`, {
-                password: editUser.password,
-                real_name: editUser.real_name,
-                employee_id: editUser.employee_id,
-                gender: editUser.gender,
-                age: editUser.age,
-            });
+            let dataSubmit = {
+                ...editUser,
+                ...(editUser.age ? { age: parseInt(editUser.age) } : {}),
+                ...(editUser.employee_id
+                    ? { employee_id: parseInt(editUser.employee_id) }
+                    : {}),
+            };
+            let is_password_change = false;
+            if (editIndex && editUser.password !== users[editIndex].password) {
+                is_password_change = true; 
+            }
+            await api.put(`/api/update/${editUser.username}/${is_password_change}`, dataSubmit);
             alert("更新成功");
             setEditIndex(null);
             fetchUsers();
@@ -68,9 +79,6 @@ function PeoplePage() {
         setEditUser((prev) => ({
             ...prev,
             [field]: value,
-                // field === "age" || field === "employee_id"
-                //     ? parseInt(value)
-                //     : value,
         }));
     };
 
@@ -81,7 +89,7 @@ function PeoplePage() {
             await api.delete(`/api/user/${users[idx].username}`);
             alert("Delete succeeded");
             fetchUsers();
-        } catch(error) {
+        } catch (error) {
             console.error(error);
             alert("Delete failed");
         }
@@ -260,9 +268,6 @@ function NewPeople({ creating, setCreating, fetchUsers }: NewPeopleProps) {
         setNewUser((prev) => ({
             ...prev,
             [field]: value,
-                // field === "age" || field === "employee_id"
-                //     ? parseInt(value)
-                //     : value,
         }));
     };
 
@@ -287,7 +292,14 @@ function NewPeople({ creating, setCreating, fetchUsers }: NewPeopleProps) {
         }
 
         try {
-            await api.post("/api/users", newUser);
+            const dataSubmit = {
+                ...newUser,
+                ...(newUser.age ? { age: parseInt(newUser.age) } : {}),
+                ...(newUser.employee_id
+                    ? { employee_id: parseInt(newUser.employee_id) }
+                    : {}),
+            };
+            await api.post("/api/users", dataSubmit);
             alert("Update successful");
             setCreating(false);
             setNewUser({});

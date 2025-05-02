@@ -21,6 +21,7 @@ function SignIn() {
 
             sessionStorage.setItem("token", token);
             sessionStorage.setItem("is_super", JSON.stringify(is_super));
+            sessionStorage.setItem("username", username);
 
             navigate("/dashboard");
         } catch (error) {

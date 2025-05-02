@@ -48,11 +48,11 @@ pub fn get_user_by_username(conn: &mut PgConnection, username: &str) -> QueryRes
 #[derive(AsChangeset, Deserialize)]
 #[diesel(table_name = crate::schema::users)]
 pub struct UpdateUserInfo {
-    pub password: String,
-    pub real_name: String,
-    pub employee_id: i32,
-    pub gender: String,
-    pub age: i32,
+    pub password: Option<String>,
+    pub real_name: Option<String>,
+    pub employee_id: Option<i32>,
+    pub gender: Option<String>,
+    pub age: Option<i32>,
 }
 
 pub fn update_user_info(
@@ -76,7 +76,7 @@ pub fn delete_user_by_username(conn: &mut PgConnection, uname: &str) -> QueryRes
 
 pub fn get_all_users(conn: &mut PgConnection) -> QueryResult<Vec<User>> {
     use crate::schema::users::dsl::*;
-    users.load::<User>(conn)
+    users.order(username.asc()).load::<User>(conn)
 }
 
 fn create_super_admin(conn: &mut PgConnection) -> QueryResult<User> {
