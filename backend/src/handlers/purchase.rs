@@ -1,6 +1,6 @@
 use crate::db::{DbPool, purchase::*};
 use crate::models::purchase::*;
-use actix_web::{HttpResponse, Responder, get, post, put, web};
+use actix_web::{HttpResponse, Responder, delete, get, post, put, web};
 use uuid::Uuid;
 
 #[post("/create")]
@@ -42,9 +42,20 @@ async fn list_all_purchases(pool: web::Data<DbPool>) -> impl Responder {
     }
 }
 
+#[delete("/return/{p_id}")]
+async fn return_purchase(pool: web::Data<DbPool>, p_id: web::Path<Uuid>) -> impl Responder {
+    let mut conn = pool.get().unwrap();
+    let p_id = p_id.into_inner();
+    match delete(&mut conn, p_id) {
+        Ok(_) => HttpResponse::Ok().body("Deleted successfully."),
+        Err(_) => HttpResponse::InternalServerError().body("Failed to delete"),
+    }
+}
+
 /// Register route
 pub fn config(cfg: &mut web::ServiceConfig) {
     cfg.service(create)
         .service(update_purchase_state)
-        .service(list_all_purchases);
+        .service(list_all_purchases)
+        .service(return_purchase);
 }

@@ -66,7 +66,7 @@ pub struct UpdateBookForm {
     pub title: Option<String>,
     pub author: Option<String>,
     pub publisher: Option<String>,
-    pub stock: i32,
+    pub stock: Option<i32>,
     pub retail_price: Option<BigDecimal>,
 }
 
@@ -79,6 +79,15 @@ pub fn update(
 
     diesel::update(books.filter(id.eq(book_id)))
         .set(&update_form)
+        .returning(Book::as_returning())
+        .get_result(conn)
+}
+
+pub fn update_stock(conn: &mut PgConnection, book_id: Uuid, delta_stock: i32) -> QueryResult<Book> {
+    use crate::schema::books::dsl::*;
+
+    diesel::update(books.filter(id.eq(book_id)))
+        .set(stock.eq(stock + delta_stock))
         .returning(Book::as_returning())
         .get_result(conn)
 }

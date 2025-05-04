@@ -1,5 +1,5 @@
 use crate::db::DbPool;
-use crate::db::book::{self, QueryBook, UpdateBookForm};
+use crate::db::book::{self, QueryBook, UpdateBookForm, update_stock};
 use actix_web::{HttpResponse, Responder, get, put, web};
 use serde::Deserialize;
 use uuid::Uuid;
@@ -38,7 +38,8 @@ async fn search_books(
             Err(_) => HttpResponse::InternalServerError().body("Query failed."),
         }
     } else {
-        return HttpResponse::BadRequest().body(format!("Receive:{:?}.\nNo query type provided.", params));
+        return HttpResponse::BadRequest()
+            .body(format!("Receive:{:?}.\nNo query type provided.", params));
     }
 }
 
@@ -58,7 +59,22 @@ async fn update_book_info(
     }
 }
 
+#[put("/update-stock/{id}/{delta_stock}")]
+async fn update_book_stock(
+    pool: web::Data<DbPool>,
+    path: web::Path<(Uuid, i32)>,
+) -> impl Responder {
+    let mut conn = pool.get().unwrap();
+    let (book_id, delta_stock) = path.into_inner();
+    match update_stock(&mut conn, book_id, delta_stock) {
+        Ok(b) => HttpResponse::Ok().json(b),
+        Err(_) => HttpResponse::InternalServerError().body("Update failed."),
+    }
+}
+
 /// Register route
 pub fn config(cfg: &mut web::ServiceConfig) {
-    cfg.service(search_books).service(update_book_info);
+    cfg.service(search_books)
+        .service(update_book_info)
+        .service(update_book_stock);
 }

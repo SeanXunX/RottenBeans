@@ -18,6 +18,7 @@ async fn main() -> std::io::Result<()> {
             .configure(user::config)
             .service(web::scope("/book").configure(book::config))
             .service(web::scope("/purchase").configure(purchase::config))
+            .service(web::scope("/finance").configure(finance::config))
     })
     .bind(("127.0.0.1", 8080))?
     .run()

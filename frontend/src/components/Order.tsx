@@ -92,10 +92,32 @@ function OrderPage() {
 
     const updateStatus = async (id: string, status: string) => {
         try {
-            await api.put(`/api/purchase/update_status/${id}`, { status });
+            await api.put(`/api/purchase/update/${id}`, { status: status });
             fetchPurchases();
         } catch (e) {
             alert("操作失败");
+        }
+    };
+
+    const handlePay = async (
+        p_id: string,
+        b_id: string,
+        quan: string,
+        price: string
+    ) => {
+        try {
+            let amount = parseInt(quan) * parseFloat(price);
+            await api.post("/api/finance/create", {
+                id: uuidv4(),
+                action_type: "Expense",
+                amount: amount,
+            });
+
+            await api.put(`/api/book/update-stock/${b_id}/${quan}`);
+
+            updateStatus(p_id, "Paid");
+        } catch (err) {
+            alert("Failed to pay.");
         }
     };
 
@@ -387,13 +409,18 @@ function OrderPage() {
                                         <button
                                             className="btn btn-success btn-sm me-2"
                                             onClick={() =>
-                                                updateStatus(p.id, "Paid")
+                                                handlePay(
+                                                    p.id,
+                                                    p.book_id,
+                                                    p.quantity,
+                                                    p.purchase_price
+                                                )
                                             }
                                         >
                                             💰付款
                                         </button>
                                     )}
-                                    {p.status !== "Returned" && (
+                                    {p.status === "Unpaid" && (
                                         <button
                                             className="btn btn-danger btn-sm"
                                             onClick={() =>

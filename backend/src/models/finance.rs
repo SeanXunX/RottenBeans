@@ -17,6 +17,7 @@ pub struct FinanceLog {
 #[derive(Insertable, Deserialize)]
 #[diesel(table_name = crate::schema::finance_logs)]
 pub struct NewFinanceLog {
+    pub id: Uuid,
     pub action_type: String,
     pub amount: BigDecimal,
 }
