@@ -6,6 +6,7 @@ import HomePage from "./components/HomePage";
 import BookPage from "./components/Book";
 import PeoplePage from "./components/People";
 import OrderPage from "./components/Order";
+import FinancePage from "./components/Finance";
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                     <Route path="book" element={<BookPage />} />
                     <Route path="people" element={<PeoplePage />} />
                     <Route path="order" element={<OrderPage />} />
+                    <Route path="finance" element={<FinancePage />} />
                 </Route>
             </Routes>
         </BrowserRouter>

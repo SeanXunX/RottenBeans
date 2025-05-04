@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../api";
+import {v4 as uuidv4} from "uuid";
 
 export interface BookType {
     id: string;
@@ -18,7 +19,10 @@ function BookPage() {
     const [books, setBooks] = useState<BookType[]>([]);
 
     const [editIndex, setEditIndex] = useState<number | null>(null);
-    const [editBook, setEditBook] = useState<Partial<BookType>>({}); // Partially chosen types from BookType
+    const [editBook, setEditBook] = useState<Partial<BookType>>({});
+
+    const [purchaseIndex, setPurchaseIndex] = useState<number | null>(null);
+    const [purchaseQuantity, setPurchaseQuantity] = useState<string>("");
 
     const handleSearch = async () => {
         try {
@@ -67,12 +71,51 @@ function BookPage() {
     };
 
     const handleChange = (field: keyof BookType, value: string) => {
-        // If passing a function as nextState, it will be treated as an updater function.
-        // It must be pure, should take the pending state as its only argument, and should return the next state.
         setEditBook((prev) => ({
             ...prev,
             [field]: value,
         }));
+    };
+
+    const handlePurchase = (idx: number) => {
+        setPurchaseIndex(idx);
+        setPurchaseQuantity("");
+    };
+
+    const cancelPurchase = () => {
+        setPurchaseIndex(null);
+        setPurchaseQuantity("");
+    };
+
+    const confirmPurchase = async () => {
+        if (purchaseIndex === null) return;
+        const book = books[purchaseIndex];
+        const quantity = parseInt(purchaseQuantity);
+
+        if (isNaN(quantity) || quantity <= 0) {
+            alert("请输入有效的购买数量。");
+            return;
+        }
+
+        if (quantity > parseInt(book.stock)) {
+            alert("购买数量不能超过库存。");
+            return;
+        }
+
+        try {
+            await api.put(`/api/book/update-stock/${book.id}/${-quantity}`);
+            await api.post("/api/finance/create", {
+                id: uuidv4(),
+                action_type: "Income",
+                amount: quantity * parseFloat(book.retail_price),
+            })
+            alert("购买成功！");
+            setPurchaseIndex(null);
+            handleSearch();
+        } catch (err) {
+            console.error(err);
+            alert("购买失败。");
+        }
     };
 
     return (
@@ -251,9 +294,17 @@ function BookPage() {
                                                         onClick={() =>
                                                             handleEdit(idx)
                                                         }
-                                                        className="btn btn-warning btn-sm"
+                                                        className="btn btn-warning btn-sm me-2"
                                                     >
                                                         ✏️修改
+                                                    </button>
+                                                    <button
+                                                        onClick={() =>
+                                                            handlePurchase(idx)
+                                                        }
+                                                        className="btn btn-success btn-sm"
+                                                    >
+                                                        🛒购买
                                                     </button>
                                                 </td>
                                             </>
@@ -265,6 +316,36 @@ function BookPage() {
                     </div>
                 </div>
             </main>
+
+            {/* 购买弹出框 */}
+            {purchaseIndex !== null && (
+                <div className="modal d-block" style={{
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    position: "fixed",
+                    top: 0, left: 0, right: 0, bottom: 0,
+                    display: "flex", justifyContent: "center", alignItems: "center"
+                }}>
+                    <div className="bg-white p-4 rounded shadow" style={{ minWidth: "300px" }}>
+                        <h5>请输入购买数量（库存：{books[purchaseIndex].stock}）</h5>
+                        <input
+                            type="number"
+                            className="form-control my-3"
+                            value={purchaseQuantity}
+                            onChange={(e) => setPurchaseQuantity(e.target.value)}
+                            min={1}
+                            max={books[purchaseIndex].stock}
+                        />
+                        <div className="d-flex justify-content-end">
+                            <button onClick={confirmPurchase} className="btn btn-primary me-2">
+                                确认
+                            </button>
+                            <button onClick={cancelPurchase} className="btn btn-secondary">
+                                取消
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

@@ -170,15 +170,15 @@ function Sidebar() {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <a
+                            <Link
                                 className="nav-link d-flex align-items-center gap-2"
-                                href="#"
+                                to="/dashboard/finance"
                             >
                                 <svg className="bi" aria-hidden="true">
                                     <use href="#bank" />
                                 </svg>
                                 Finance
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                     <hr className="my-3" />
@@ -194,17 +194,6 @@ function Sidebar() {
                                 </svg>
                                 People
                             </Link>
-                        </li>
-                        <li className="nav-item">
-                            <a
-                                className="nav-link d-flex align-items-center gap-2"
-                                href="#"
-                            >
-                                <svg className="bi" aria-hidden="true">
-                                    <use href="#gear" />
-                                </svg>
-                                Settings
-                            </a>
                         </li>
                         <li className="nav-item">
                             <button

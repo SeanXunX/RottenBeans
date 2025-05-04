@@ -41,5 +41,6 @@ pub fn get_log(
     finance_logs
         .filter(created_at.ge(start).and(created_at.le(end)))
         .select(FinanceLog::as_returning())
+        .order(created_at.desc())
         .load(conn)
 }

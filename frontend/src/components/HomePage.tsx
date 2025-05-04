@@ -59,7 +59,7 @@ function HomePage() {
                         </tbody>
                     </table>
                 </div>
-            </main>{" "}
+            </main>
         </>
     );
 }

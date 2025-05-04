@@ -110,7 +110,7 @@ function OrderPage() {
             await api.post("/api/finance/create", {
                 id: uuidv4(),
                 action_type: "Expense",
-                amount: amount,
+                amount: -amount,
             });
 
             await api.put(`/api/book/update-stock/${b_id}/${quan}`);
