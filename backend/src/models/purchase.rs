@@ -17,9 +17,10 @@ pub struct Purchase {
     pub created_at: NaiveDateTime,
 }
 
-#[derive(Insertable, Deserialize)]
+#[derive(Insertable, Deserialize, Serialize)]
 #[diesel(table_name = crate::schema::purchases)]
 pub struct NewPurchase {
+    pub id: Uuid,
     pub book_id: Uuid,
     pub quantity: i32,
     pub purchase_price: BigDecimal,

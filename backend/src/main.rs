@@ -17,6 +17,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(pool.clone()))
             .configure(user::config)
             .service(web::scope("/book").configure(book::config))
+            .service(web::scope("/purchase").configure(purchase::config))
     })
     .bind(("127.0.0.1", 8080))?
     .run()

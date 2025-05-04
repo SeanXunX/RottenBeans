@@ -159,15 +159,15 @@ function Sidebar() {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <a
+                            <Link
                                 className="nav-link d-flex align-items-center gap-2"
-                                href="#"
+                                to="/dashboard/order"
                             >
                                 <svg className="bi" aria-hidden="true">
                                     <use href="#cart" />
                                 </svg>
                                 Order
-                            </a>
+                            </Link>
                         </li>
                         <li className="nav-item">
                             <a

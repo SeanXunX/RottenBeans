@@ -1,7 +1,19 @@
 use crate::models::purchase::*;
 use bigdecimal::BigDecimal;
 use diesel::prelude::*;
+use serde::Deserialize;
 use uuid::Uuid;
+
+pub fn create_new_purchase(
+    conn: &mut PgConnection,
+    new_purchase: &NewPurchase,
+) -> QueryResult<Purchase> {
+    use crate::schema::purchases::dsl::*;
+    diesel::insert_into(purchases)
+        .values(new_purchase)
+        .returning(Purchase::as_returning())
+        .get_result(conn)
+}
 
 pub fn create_purchase(
     conn: &mut PgConnection,
@@ -10,19 +22,22 @@ pub fn create_purchase(
     price: BigDecimal,
     stat: String,
 ) -> QueryResult<Purchase> {
-    use crate::schema::purchases::dsl::*;
+    // use crate::schema::purchases::dsl::*;
 
     let new_purchase = NewPurchase {
+        id: Uuid::new_v4(),
         book_id: b_id,
         quantity: quan,
         purchase_price: price,
         status: stat,
     };
 
-    diesel::insert_into(purchases)
-        .values(&new_purchase)
-        .returning(Purchase::as_returning())
-        .get_result(conn)
+    create_new_purchase(conn, &new_purchase)
+
+    // diesel::insert_into(purchases)
+    //     .values(&new_purchase)
+    //     .returning(Purchase::as_returning())
+    //     .get_result(conn)
 }
 
 pub enum QueryPurchase {
@@ -48,24 +63,31 @@ pub fn get_purchase(
     }
 }
 
-pub enum UpdatePurchase {
-    Status(String),
+pub fn get_all_purchases(conn: &mut PgConnection) -> QueryResult<Vec<Purchase>> {
+    use crate::schema::purchases::dsl::*;
+    purchases
+        .order((created_at.desc(), status.asc()))
+        .load::<Purchase>(conn)
+}
+
+#[derive(AsChangeset, Deserialize)]
+#[diesel(table_name = crate::schema::purchases)]
+pub struct UpdatePurchase {
+    pub status: Option<String>,
 }
 
 pub fn update(
     conn: &mut PgConnection,
     p_id: Uuid,
-    update_enum: UpdatePurchase,
+    update_info: &UpdatePurchase,
 ) -> QueryResult<Purchase> {
     use crate::schema::purchases::dsl::*;
 
     let up = diesel::update(purchases.filter(id.eq(p_id)));
-    match update_enum {
-        UpdatePurchase::Status(s) => up
-            .set(status.eq(s))
-            .returning(Purchase::as_returning())
-            .get_result(conn),
-    }
+
+    up.set(update_info)
+        .returning(Purchase::as_returning())
+        .get_result(conn)
 }
 
 pub fn delete(conn: &mut PgConnection, p_id: Uuid) -> QueryResult<usize> {

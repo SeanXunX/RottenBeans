@@ -3,8 +3,9 @@ import SignIn from "./components/SignIn";
 import Dashboard from "./components/Dashboard";
 import RequireAuth from "./RequireAuth";
 import HomePage from "./components/HomePage";
-import Book from "./components/Book";
+import BookPage from "./components/Book";
 import PeoplePage from "./components/People";
+import OrderPage from "./components/Order";
 
 function App() {
     return (
@@ -20,8 +21,9 @@ function App() {
                     }
                 >
                     <Route index element={<HomePage />} />
-                    <Route path="book" element={<Book />} />
+                    <Route path="book" element={<BookPage />} />
                     <Route path="people" element={<PeoplePage />} />
+                    <Route path="order" element={<OrderPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>

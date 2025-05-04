@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../api";
 
-interface BookType {
+export interface BookType {
     id: string;
     isbn: string;
     title: string;
@@ -12,7 +12,7 @@ interface BookType {
     created_at: string;
 }
 
-function Book() {
+function BookPage() {
     const [searchType, setSearchType] = useState("place_holder");
     const [searchValue, setSearchValue] = useState("");
     const [books, setBooks] = useState<BookType[]>([]);
@@ -269,4 +269,4 @@ function Book() {
     );
 }
 
-export default Book;
+export default BookPage;
