@@ -128,6 +128,7 @@ function OrderPage() {
     return (
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <h1>订单管理</h1>
+
             {/* 搜索区域 */}
             <div className="mb-3">
                 <select
@@ -154,14 +155,14 @@ function OrderPage() {
                     placeholder="请输入搜索内容"
                 />
             </div>
-            <button onClick={handleSearch} className="btn btn-primary">
-                查询
+            <button onClick={handleSearch} className="btn btn-primary mb-3">
+                🔍 查询图书
             </button>
 
             {/* 图书列表 */}
             <div className="mt-4">
-                <h2>搜索结果</h2>
-                <table className="table table-striped table-sm">
+                <h2 className="border-bottom pb-2">📚 搜索结果</h2>
+                <table className="table table-hover table-bordered text-center">
                     <thead>
                         <tr>
                             <th>ISBN</th>
@@ -175,58 +176,13 @@ function OrderPage() {
                     </thead>
                     <tbody>
                         {books.map((book, idx) => (
-                            <tr
-                                key={book.id}
-                                className={
-                                    editBookIndex === idx ? "table-warning" : ""
-                                }
-                            >
-                                {editBookIndex === idx ? (
-                                    <>
-                                        <td>{book.isbn}</td>
-                                        <td>{book.title}</td>
-                                        <td>{book.author}</td>
-                                        <td>{book.publisher}</td>
-                                        <td>
-                                            <input
-                                                value={
-                                                    editBook.retail_price || ""
-                                                }
-                                                onChange={(e) =>
-                                                    handleChange(
-                                                        "retail_price",
-                                                        e.target.value
-                                                    )
-                                                }
-                                                className="form-control"
-                                            />
-                                        </td>
-                                        <td>
-                                            <input
-                                                value={
-                                                    editBook.stock?.toString() ||
-                                                    ""
-                                                }
-                                                onChange={(e) =>
-                                                    handleChange(
-                                                        "stock",
-                                                        e.target.value
-                                                    )
-                                                }
-                                                className="form-control"
-                                            />
-                                        </td>
-                                    </>
-                                ) : (
-                                    <>
-                                        <td>{book.isbn}</td>
-                                        <td>{book.title}</td>
-                                        <td>{book.author}</td>
-                                        <td>{book.publisher}</td>
-                                        <td>{book.retail_price}</td>
-                                        <td>{book.stock}</td>
-                                    </>
-                                )}
+                            <tr key={book.id}>
+                                <td>{book.isbn}</td>
+                                <td>{book.title}</td>
+                                <td>{book.author}</td>
+                                <td>{book.publisher}</td>
+                                <td>{book.retail_price}</td>
+                                <td>{book.stock}</td>
                                 <td>
                                     {selectedBookId === book.id ? (
                                         <>
@@ -262,18 +218,18 @@ function OrderPage() {
                 </table>
             </div>
 
-            {/* 如果没有找到图书，允许添加新书 */}
+            {/* 添加新书 */}
             {books.length === 0 && (
                 <div className="mt-4">
-                    <h2>添加新书</h2>
-                    <div className="row g-2">
+                    <h2 className="border-bottom pb-2">📘 添加新书</h2>
+                    <div className="row g-3">
                         {["isbn", "title", "author", "publisher"].map(
                             (field) => (
                                 <div key={field} className="col-md-3">
                                     <input
                                         type="text"
                                         className="form-control"
-                                        placeholder={field}
+                                        placeholder={`请输入${field}`}
                                         value={(newBook as any)[field] || ""}
                                         onChange={(e) =>
                                             setNewBook({
@@ -286,12 +242,12 @@ function OrderPage() {
                             )
                         )}
                     </div>
-                    <div className="row g-2 mt-2">
+                    <div className="row g-3 mt-2">
                         <div className="col-md-3">
                             <input
                                 type="number"
                                 className="form-control"
-                                placeholder="retail_price"
+                                placeholder="零售价格"
                                 value={newBook.retail_price || ""}
                                 onChange={(e) =>
                                     setNewBook({
@@ -347,15 +303,15 @@ function OrderPage() {
                 </div>
             )}
 
-            {/* 创建订单 */}
+            {/* 下订单 */}
             <div className="mt-4">
-                <h2>下订单</h2>
-                <div className="row g-2">
+                <h2 className="border-bottom pb-2">📝 下订单</h2>
+                <div className="row g-3 align-items-center">
                     <div className="col-md-3">
                         <input
                             type="number"
                             className="form-control"
-                            placeholder="数量"
+                            placeholder="请输入数量"
                             value={orderQuantity}
                             onChange={(e) => setOrderQuantity(e.target.value)}
                         />
@@ -364,17 +320,17 @@ function OrderPage() {
                         <input
                             type="number"
                             className="form-control"
-                            placeholder="单价"
+                            placeholder="请输入进价"
                             value={orderPrice}
                             onChange={(e) => setOrderPrice(e.target.value)}
                         />
                     </div>
                     <div className="col-md-3">
                         <button
-                            className="btn btn-primary"
+                            className="btn btn-outline-success"
                             onClick={handleCreateOrder}
                         >
-                            下单
+                            ✅ 提交订单
                         </button>
                     </div>
                 </div>
@@ -382,8 +338,8 @@ function OrderPage() {
 
             {/* 订单列表 */}
             <div className="mt-4">
-                <h2>订单列表</h2>
-                <table className="table table-bordered">
+                <h2 className="border-bottom pb-2">📝 订单列表</h2>
+                <table className="table table-bordered text-center">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -407,7 +363,7 @@ function OrderPage() {
                                 <td>
                                     {p.status === "Unpaid" && (
                                         <button
-                                            className="btn btn-success btn-sm me-2"
+                                            className="btn btn-outline-success btn-sm me-2"
                                             onClick={() =>
                                                 handlePay(
                                                     p.id,
@@ -417,17 +373,17 @@ function OrderPage() {
                                                 )
                                             }
                                         >
-                                            💰付款
+                                            💰 付款
                                         </button>
                                     )}
                                     {p.status === "Unpaid" && (
                                         <button
-                                            className="btn btn-danger btn-sm"
+                                            className="btn btn-outline-danger btn-sm"
                                             onClick={() =>
                                                 updateStatus(p.id, "Returned")
                                             }
                                         >
-                                            🔁退货
+                                            🔁 退货
                                         </button>
                                     )}
                                 </td>
