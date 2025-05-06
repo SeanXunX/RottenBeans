@@ -1,64 +1,37 @@
 # Rotten Beans
 
-Rotten tomatoes🍅 + 豆瓣 (Beans)🫘
+Rotten tomatoes🍅 + DouBan Beans🫘
 
-# 后端接口
+A full-stack book managing system. ( Mid-term lab of *Introduction to Database*  25sp @ FDU :)
 
-## 用户管理
+---
 
-- [x] 登陆
-- [x] 登陆后才能操作 token传递 **RequireAuth component**
-- [x] token **unauthorization** time expiaration (1 hour) + sign out
-- [x] 超级管理员
-  - [x] 初始创建
-  - [x] 创建用户
-  - [x] 查看所有用户资料
+## Quickstart
 
-## 图书管理
+### **Dependencies**
+- rustup 1.28.1 (f9edccde0 2025-03-05)
+  - `cd backend && cargo build`
+- node v22.14.0
+  - `cd frontend && npm install`
 
-- [x] 查询图书
-  - [x] 书籍编号、书籍ISBN号、书名、作者、出版社 等
-  - [x] 模糊查询
-- [x] 图书信息修改 书籍名称、作者、出版社、零售价格
+### Get start✨
+`make dev`
 
-## 图书销售
+Open `http://localhost:5173`
 
-- [ ] 进货
-  - [ ] 查询是否存在
-- [ ] 付款
-  - [ ] 更新库存
-- [ ] 退货
-- [ ] 卖出
-  - [ ] 更新库存
+---
 
-## 财务信息
+## Tech Stack
 
-- [ ] 付款、售出， 更新支出/收入
-- [ ] 查看某段时间的记录
+|    |                                       |
+| ---- | ---------------------------------------- |
+| Backend   | Rust, Actix-web, Diesel ORM, PostgreSQL  |
+| Frontend   | React, TypeScript, Vite, Axios, Recharts, Bootstrap |
+| Data Scraping | Python, Requests, BeautifulSoup          |
+| Code Formatter | Prettier                         |
 
-## 书籍数据
+---
+ ## TODO
 
-- [x] 爬虫，添加数据
-
-# 前端界面
-
-## Sign In
-
-## Dashboard
-
-Sidebar 入口：
-- book
-- purchase
-- finance
-
-基本模式
-- 图表
-- 查询
-- 修改
-
-
-## Setting
-
-- [ ] personal info management
-- [ ] Create user
-- [ ] Super admin check all user
+ - [ ] Build, release and host.
+ - [ ] Use **Tauri** to build cross-platform app. 
