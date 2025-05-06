@@ -26,8 +26,8 @@ function OrderPage() {
     const [searchValue, setSearchValue] = useState("");
 
     const [books, setBooks] = useState<BookType[]>([]);
-    const [editBookIndex] = useState<number | null>(null);
-    const [editBook, setEditBook] = useState<Partial<BookType>>({});
+    // const [editBookIndex] = useState<number | null>(null);
+    // const [editBook, setEditBook] = useState<Partial<BookType>>({});
 
     const [selectedBookId, setSelectedBookId] = useState<string | null>(null);
     const [orderQuantity, setOrderQuantity] = useState("");
@@ -51,12 +51,12 @@ function OrderPage() {
         }
     };
 
-    const handleChange = (field: keyof BookType, value: string) => {
-        setEditBook((prev) => ({
-            ...prev,
-            [field]: value,
-        }));
-    };
+    // const handleChange = (field: keyof BookType, value: string) => {
+    //     setEditBook((prev) => ({
+    //         ...prev,
+    //         [field]: value,
+    //     }));
+    // };
 
     const handleCreateOrder = async () => {
         if (!selectedBookId || !orderQuantity || !orderPrice) {
@@ -175,7 +175,7 @@ function OrderPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        {books.map((book, idx) => (
+                        {books.map((book) => (
                             <tr key={book.id}>
                                 <td>{book.isbn}</td>
                                 <td>{book.title}</td>
