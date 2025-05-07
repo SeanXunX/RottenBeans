@@ -23,7 +23,7 @@ Open `http://localhost:5173`
 
 ## Tech Stack
 
-|    |                                       |
+| Module   |   Tech Stack                                    |
 | ---- | ---------------------------------------- |
 | Backend   | Rust, Actix-web, Diesel ORM, PostgreSQL  |
 | Frontend   | React, TypeScript, Vite, Axios, Recharts, Bootstrap |
