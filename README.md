@@ -11,6 +11,8 @@ A full-stack book managing system. ( Mid-term lab of *Introduction to Database* 
 ### **Dependencies**
 - rustup 1.28.1 (f9edccde0 2025-03-05)
   - `cd backend && cargo build`
+- Postgresql && diesel_cli
+  - Follow the [official guide of diesel](https://diesel.rs/guides/getting-started.html) to set up postgresql for the project
 - node v22.14.0
   - `cd frontend && npm install`
 
