@@ -2,7 +2,7 @@
 
 Rotten tomatoes🍅 + DouBan Beans🫘
 
-A full-stack book managing system. ( Mid-term lab of *Introduction to Database*  25sp @ FDU :)
+A full-stack book managing system. (Rust + React)
 
 ---
 
